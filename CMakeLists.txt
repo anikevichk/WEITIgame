@@ -10,6 +10,11 @@ add_executable(main main.cpp
         menu.cpp
         Window.h
         Window.cpp
+        lossScreen.h
+        lossScreen.h
+        lossScreen.cpp
+        victoryScreen.h
+        victoryScreen.cpp
 )
 
 find_package(raylib CONFIG REQUIRED)
