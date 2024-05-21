@@ -48,27 +48,27 @@ void level1(Window &window) {
     };
 
 
-    Rectangle player = {50, screenHeight - 25, 10, 50};
-    Rectangle obstacle = {screenWidth, screenHeight - 75, 50, 50};
-    Rectangle floor1 = {0, screenHeight - 25, screenWidth, 25};
-    Rectangle floor2 = {0, screenHeight - 300, screenWidth, 25};
-    Rectangle floor3 = {0, screenHeight - 575, screenWidth, 25};
+    Rectangle player = {50, static_cast<float>(screenHeight - 25), 10, 50};
+    Rectangle obstacle = {static_cast<float>(screenWidth), static_cast<float>(screenHeight - 75), 50, 50};
+    Rectangle floor1 = {0, static_cast<float>(screenHeight - 25), static_cast<float>(screenWidth), 25};
+    Rectangle floor2 = {0, static_cast<float>(screenHeight - 300), static_cast<float>(screenWidth), 25};
+    Rectangle floor3 = {0, static_cast<float>(screenHeight - 575), static_cast<float>(screenWidth), 25};
 
 
     const int numObstacles = 6;
     Rectangle obstacles[numObstacles] = {
-            {screenWidth, screenHeight - 75, 50, 50},
-            {screenWidth, screenHeight - 350, 50, 50},
-            {screenWidth, screenHeight - 625, 50, 50},
-            {screenWidth, screenHeight - 175, 50, 150},
-            {screenWidth, screenHeight - 450, 50, 150},
-            {screenWidth, screenHeight - 725, 50, 150}
+            {static_cast<float>(screenWidth), static_cast<float>(screenHeight - 75), 50, 50},
+            {static_cast<float>(screenWidth), static_cast<float>(screenHeight - 350), 50, 50},
+            {static_cast<float>(screenWidth), static_cast<float>(screenHeight - 625), 50, 50},
+            {static_cast<float>(screenWidth), static_cast<float>(screenHeight - 175), 50, 150},
+            {static_cast<float>(screenWidth), static_cast<float>(screenHeight - 450), 50, 150},
+            {static_cast<float>(screenWidth), static_cast<float>(screenHeight - 725), 50, 150}
     };
 
-    for (int currentObstacle = 0; currentObstacle < numObstacles; currentObstacle++){
+    for (auto & obstacle : obstacles){
         int random = getRandom();
 
-        obstacles[currentObstacle].x = obstacles[currentObstacle].x + random ;
+        obstacle.x = obstacle.x + random ;
     }
 
     player.y = screenHeight - normalAlt;
@@ -82,11 +82,11 @@ void level1(Window &window) {
 
 
 //        int currentObstacle = rand() % numObstacles;
-        for (int currentObstacle = 0; currentObstacle < numObstacles; currentObstacle++) {
-            obstacles[currentObstacle].x -= obstacleSpeed;
+        for (auto & obstacle : obstacles) {
+            obstacle.x -= obstacleSpeed;
 
 
-            if (CheckCollisionRecs(player, obstacles[currentObstacle])) {
+            if (CheckCollisionRecs(player, obstacle)) {
 
                 obstacleSpeed = 0.0f;
                 UnloadTexture(playerSprite);
@@ -99,9 +99,9 @@ void level1(Window &window) {
             }
 
 
-            if (obstacles[currentObstacle].x < 0) {
+            if (obstacle.x < 0) {
                 int random = getRandom();
-                obstacles[currentObstacle].x = screenWidth + random;
+                obstacle.x = screenWidth + random;
                 counter ++;
             }
 
@@ -169,7 +169,7 @@ void level1(Window &window) {
                 normalAlt = 75;
             }
 
-            if (normalAlt > 350 && normalAlt <= 625) {
+            if (normalAlt > 350 ) {
                 normalAlt = 350;
             }
 
