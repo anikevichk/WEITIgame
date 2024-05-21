@@ -3,14 +3,24 @@
 #include "raylib.h"
 #include "level1.h"
 
-void level1(Window &window) {
-
+int getRandom(){
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> dist(500, 2000);
+    int lastrandom = dist(gen);
+
+    int random;
+    do {
+        random = dist(gen);
+
+    } while (abs(random-lastrandom) < 200);
+
+    return random;
+}
+
+void level1(Window &window) {
 
     int counter = 0;
-    int lastrandom = dist(gen);
     int screenWidth = 1600;
     int screenHeight = 900;
     bool isJumping = false;
@@ -21,14 +31,21 @@ void level1(Window &window) {
     int normalAlt = 75;
     float obstacleSpeed = 5.0f;
     bool loss = false;
+    int currentFrame = 0;
+    float frameRate = 0.1f;
+    float frameTimer = 0.0f;
 
 
-    Texture2D playerTexture = LoadTexture("../src/player.png");
+    Texture2D playerSprite = LoadTexture("../src/playerSprite.png");
     Texture2D obstacleTexture = LoadTexture("../src/obstacle.png");
     Texture2D backgroundTexture = LoadTexture("../src/background.png");
     Texture2D floorTexture = LoadTexture("../src/floor.png");
     Texture2D serverTexture = LoadTexture("../src/server.png");
 
+    Rectangle frames[] = {
+            {0,0, 66,95},
+            {73, 0,66, 95}
+    };
 
 
     Rectangle player = {50, screenHeight - 25, 10, 50};
@@ -49,10 +66,7 @@ void level1(Window &window) {
     };
 
     for (int currentObstacle = 0; currentObstacle < numObstacles; currentObstacle++){
-        int random;
-        do {
-        random = dist(gen);
-        } while (abs(random-lastrandom) < 200);
+        int random = getRandom();
 
         obstacles[currentObstacle].x = obstacles[currentObstacle].x + random ;
     }
@@ -66,11 +80,6 @@ void level1(Window &window) {
             break;
         }
 
-        int random;
-        do {
-            random = dist(gen);
-
-        } while (abs(random-lastrandom) < 200);
 
 //        int currentObstacle = rand() % numObstacles;
         for (int currentObstacle = 0; currentObstacle < numObstacles; currentObstacle++) {
@@ -80,7 +89,7 @@ void level1(Window &window) {
             if (CheckCollisionRecs(player, obstacles[currentObstacle])) {
 
                 obstacleSpeed = 0.0f;
-                UnloadTexture(playerTexture);
+                UnloadTexture(playerSprite);
                 UnloadTexture(obstacleTexture);
                 UnloadTexture(backgroundTexture);
                 UnloadTexture(floorTexture);
@@ -91,6 +100,7 @@ void level1(Window &window) {
 
 
             if (obstacles[currentObstacle].x < 0) {
+                int random = getRandom();
                 obstacles[currentObstacle].x = screenWidth + random;
                 counter ++;
             }
@@ -100,7 +110,7 @@ void level1(Window &window) {
         if (counter >= 50){
             window.setScreen(Window::VICTORY);
             obstacleSpeed = 0.0f;
-            UnloadTexture(playerTexture);
+            UnloadTexture(playerSprite);
             UnloadTexture(obstacleTexture);
             UnloadTexture(backgroundTexture);
             UnloadTexture(floorTexture);
@@ -165,6 +175,18 @@ void level1(Window &window) {
 
         }
 
+        frameTimer += GetFrameTime();
+        if (frameTimer >= frameRate)
+        {
+            frameTimer = 0.0f;
+            currentFrame++;
+
+            if (currentFrame >= sizeof(frames) / sizeof(Rectangle))
+            {
+                currentFrame = 0;
+            }
+        }
+
 
         BeginDrawing();
 
@@ -173,7 +195,7 @@ void level1(Window &window) {
         DrawTexture(floorTexture, floor1.x, floor1.y, WHITE);
         DrawTexture(floorTexture, floor2.x, floor2.y, WHITE);
         DrawTexture(floorTexture, floor3.x, floor3.y, WHITE);
-        DrawTexture(playerTexture, player.x - 45, player.y - 50, WHITE);
+        DrawTextureRec(playerSprite, frames[currentFrame], (Vector2){player.x - 45, player.y - 50}, WHITE);
         DrawTexture(obstacleTexture, obstacles[0].x - 45, obstacles[0].y - 50, WHITE);
         DrawTexture(obstacleTexture, obstacles[1].x - 45, obstacles[1].y - 50, WHITE);
         DrawTexture(obstacleTexture, obstacles[2].x - 45, obstacles[2].y - 50, WHITE);
@@ -187,3 +209,4 @@ void level1(Window &window) {
 
 
 }
+
