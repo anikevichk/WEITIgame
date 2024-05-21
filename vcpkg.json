@@ -1,0 +1,5 @@
+{
+  "name": "escapefromweiti",
+  "version": "1.0",
+  "dependencies": ["raylib"]
+}
