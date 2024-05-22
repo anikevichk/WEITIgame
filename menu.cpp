@@ -1,6 +1,5 @@
 #include "raylib.h"
-#include "menu.h"
-#include "level1.h"
+#include "scenes.h"
 #include  "Window.h"
 
 int buttonX = 100;

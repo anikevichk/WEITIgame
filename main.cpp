@@ -1,8 +1,5 @@
 #include "raylib.h"
-#include "level1.h"
-#include "menu.h"
-#include "lossScreen.h"
-#include "victoryScreen.h"
+#include "scenes.h"
 #include "Window.h"
 
 int main(){
@@ -20,11 +17,11 @@ int main(){
         }
 
         if(currentWindow.getScreen()== Window::LOSS){
-            lossScreen(currentWindow);
+            lossWinScreen(currentWindow, "GAME OVER!:(");
         }
 
         if(currentWindow.getScreen()== Window::VICTORY){
-            victoryScreen(currentWindow);
+            lossWinScreen(currentWindow, "VICTORY");
         }
     }
 

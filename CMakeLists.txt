@@ -6,15 +6,11 @@ set(CMAKE_CXX_STANDARD 17)
 
 add_executable(main main.cpp
         level1.cpp
-        level1.h
         menu.cpp
         Window.h
         Window.cpp
-        lossScreen.h
-        lossScreen.h
-        lossScreen.cpp
-        victoryScreen.h
-        victoryScreen.cpp
+        LossWinScreen.cpp
+        scenes.h
 )
 
 find_package(raylib CONFIG REQUIRED)

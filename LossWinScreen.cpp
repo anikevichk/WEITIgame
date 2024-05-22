@@ -2,19 +2,19 @@
 // Created by matve on 21.05.2024.
 //
 #include "raylib.h"
-#include "lossScreen.h"
+#include "scenes.h"
 #include  "Window.h"
 
 
 int ButtonX = 550;
 int ButtonY = 350;
 
-const char *head = "GAME OVER! :(";
+//const char *head = "GAME OVER! :(";
 const char *Text = "back to menu";
 Rectangle Button = { ButtonX, ButtonY, 500, 200 };
 Color color = LIGHTGRAY;
 
-void lossScreen(Window& window){
+void lossWinScreen(Window& window, char *head){
 
     if (CheckCollisionPointRec(GetMousePosition(), Button))
     {
