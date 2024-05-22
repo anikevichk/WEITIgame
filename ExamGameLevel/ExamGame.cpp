@@ -1,7 +1,7 @@
-#include "../cmake-build-debug/vcpkg_installed/x64-windows/include/raylib.h"
+#include "raylib.h"
 #include "../Scenes/scenes.h"
 #include <vector>
-#include <iostream>
+#include "enemy.h"
 #include <algorithm>
 
 void ExamGame(Window &window) {
@@ -18,7 +18,7 @@ void ExamGame(Window &window) {
     float speed = 2.0f;
 
     Rectangle player = { 400, 300, 25, 25 };
-
+    Enemy enemy = { 1,2,3,4,5,6};
 
 
 

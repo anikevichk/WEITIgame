@@ -14,6 +14,8 @@ add_executable(main main.cpp
         ExamGameLevel/ExamGame.cpp
         MazeLevel/maze.cpp
         MazeLevel/maze.h
+        ExamGameLevel/enemy.cpp
+        ExamGameLevel/enemy.h
 )
 
 find_package(raylib CONFIG REQUIRED)
