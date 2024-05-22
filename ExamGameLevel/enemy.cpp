@@ -18,3 +18,32 @@ int Enemy::GetDamage() {
 void Enemy::ReceiveDamage(int Damage) {
     health -= Damage;
 }
+
+void Enemy::moveToPlayer(int playerX, int playerY){
+    int distanceX = playerX - x;
+    int distanceY = playerY - y;
+    int sideX = 1;
+    int sideY = 1;
+
+    if (distanceX < 0) sideX = -1;
+    if (distanceY < 0) sideY = -1;
+
+
+    if(distanceY < distanceX){
+        x+=sideX;
+        if(distanceX % distanceY == 0){
+            ++y;
+        }
+    }
+    else if (distanceX < distanceY)
+    {
+        y+=sideY;
+        if(distanceX % distanceY == 0){
+            ++x;
+        }
+    }
+    else if (distanceX == distanceY){
+        x+=sideX;
+        y+=sideY;
+    }
+}
