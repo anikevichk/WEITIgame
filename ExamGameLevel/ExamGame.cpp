@@ -6,11 +6,16 @@
 #include <random>
 
 
-int getRandom(int a, int b) {           // method used to generate random coordinates of enemies
+int getRandom(int a, int b, int gapStart, int gapEnd) {           // method used to generate random coordinates of enemies
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> dist(a, b);
     int random = dist(gen);
+
+
+    if (random >= gapStart) {
+        random += (gapEnd - gapStart);
+    }
     return random;
 }
 
@@ -28,9 +33,13 @@ void ExamGame(Window &window) {
 
     int screenWidth = 1600;
     int screenHeight = 900;
-    float speed = 2.0f;
+    int playerHealth = 100;
     int bulletDamage = 25;
-    int i = 0;
+    float speed = 2.0f;
+    float enemySpawnRate = 10.0f;
+    float enemySpawnerTimer = 10.0f;
+    float damageRate = 0.0f;
+    float damageTimer = 2.0;
 
     Rectangle player = { 400, 300, 25, 25 };
 //    Enemy enemy = { 1,2,25,30,5,6};
@@ -87,8 +96,16 @@ void ExamGame(Window &window) {
         enemies.erase(std::remove_if(enemies.begin(), enemies.end(), [](Enemy& enemy) {
             return enemy.GetHealth() <= 0;}), enemies.end());
 
-        for(i ; i <10; ++i){
-            enemies.emplace_back(getRandom(-100,0), getRandom(0,screenHeight), 25,30,5,6);
+        enemySpawnerTimer += GetFrameTime();
+        if(enemySpawnerTimer >= enemySpawnRate) {
+            enemySpawnerTimer = 0.0f;
+            for (int i = 0; i < 20; i += 2) {
+                enemies.emplace_back(getRandom(-100, screenWidth + 100, 0, screenWidth),
+                                     getRandom(-100, screenHeight + 100, 0, screenHeight), 25, 30, 5, 25);
+                enemies.emplace_back(GetRandomValue(0, screenWidth),
+                                     getRandom(-100, screenHeight + 100, 0, screenHeight), 25, 30, 5, 25);
+
+            }
         }
 
         BeginDrawing();
@@ -101,14 +118,27 @@ void ExamGame(Window &window) {
             DrawRectangleRec(bullet.rect, RED);
         }
 
+        damageTimer += GetFrameTime();
+
         for ( auto &enemy : enemies) {
             for (auto& bullet : bullets) {
                 if (CheckCollisionRecs(enemy, bullet.rect)) {
                     enemy.ReceiveDamage(bulletDamage);
                 }
             }
+
+            if (CheckCollisionRecs(enemy, player) && damageTimer >= damageRate){
+                damageTimer = 0.0f;
+                playerHealth -= enemy.GetDamage();
+            }
+
             enemy.moveToPlayer(player.x, player.y);
             DrawRectangleRec(enemy, RED);
+        }
+
+        if (playerHealth <= 0){
+            window.setScreen(Window::LOSS);
+            break;
         }
 
         EndDrawing();
