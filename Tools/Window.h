@@ -2,14 +2,14 @@
 // Created by matve on 20.05.2024.
 //
 
-#include"raylib.h"
+#include"../cmake-build-debug/vcpkg_installed/x64-windows/include/raylib.h"
 
 #ifndef UNTITLED_TOOLS_H
 #define UNTITLED_TOOLS_H
 
 class Window{
 public:
-    typedef enum GameScreen { Menu, LEVEL1, LOSS, VICTORY, TETRIS } GameScreen;
+    typedef enum GameScreen { Menu, LEVEL1, LOSS, VICTORY, EXAM } GameScreen;
 private:
     GameScreen currentScreen;
 public:

@@ -1,7 +1,7 @@
 //
 // Created by matve on 21.05.2024.
 //
-#include "raylib.h"
+#include "../cmake-build-debug/vcpkg_installed/x64-windows/include/raylib.h"
 #include "scenes.h"
 #include  "../Tools/Window.h"
 

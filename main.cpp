@@ -1,4 +1,4 @@
-#include "raylib.h"
+#include "cmake-build-debug/vcpkg_installed/x64-windows/include/raylib.h"
 #include "Scenes/scenes.h"
 #include "Tools/Window.h"
 
@@ -24,8 +24,8 @@ int main(){
             lossWinScreen(currentWindow, "VICTORY!");
         }
 
-        if(currentWindow.getScreen()== Window::TETRIS){
-            Tetris(currentWindow);
+        if(currentWindow.getScreen()== Window::EXAM){
+            ExamGame(currentWindow);
         }
     }
 

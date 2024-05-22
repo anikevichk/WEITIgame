@@ -11,7 +11,7 @@ add_executable(main main.cpp
         Tools/Window.cpp
         Scenes/LossWinScreen.cpp
         Scenes/scenes.h
-        TetrisLevel/TetrisLevel.cpp
+        ExamGameLevel/ExamGame.cpp
 )
 
 find_package(raylib CONFIG REQUIRED)

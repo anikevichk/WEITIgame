@@ -11,6 +11,6 @@
 void lossWinScreen(Window& window, char *text);
 void menu(Window& window);
 void level1(Window& window);
-void Tetris(Window &window);
+void ExamGame(Window &window);
 
 #endif //UNTITLED_SCREENS_H

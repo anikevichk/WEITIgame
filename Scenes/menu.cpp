@@ -1,4 +1,4 @@
-#include "raylib.h"
+#include "../cmake-build-debug/vcpkg_installed/x64-windows/include/raylib.h"
 #include "scenes.h"
 #include  "../Tools/Window.h"
 
@@ -35,7 +35,7 @@ void menu(Window& window) {
     {
         buttonTetrisColor = MOUSE_LEFT_BUTTON ? RED : DARKGRAY;
         if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
-            window.setScreen(Window::TETRIS);
+            window.setScreen(Window::EXAM);
         }
     }
     else

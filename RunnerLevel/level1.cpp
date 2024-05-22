@@ -1,6 +1,6 @@
 #include <cmath>
 #include <random>
-#include "raylib.h"
+#include "../cmake-build-debug/vcpkg_installed/x64-windows/include/raylib.h"
 #include "../Scenes/scenes.h"
 
 int lastrandom = 0;
