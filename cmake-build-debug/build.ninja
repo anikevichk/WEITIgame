@@ -98,6 +98,13 @@ build CMakeFiles/main.dir/MazeLevel/maze.cpp.obj: CXX_COMPILER__main_unscanned_D
   OBJECT_DIR = CMakeFiles\main.dir
   OBJECT_FILE_DIR = CMakeFiles\main.dir\MazeLevel
 
+build CMakeFiles/main.dir/ExamGameLevel/enemy.cpp.obj: CXX_COMPILER__main_unscanned_Debug C$:/Users/Kate/Desktop/proiproject/game/ExamGameLevel/enemy.cpp || cmake_object_order_depends_target_main
+  DEP_FILE = CMakeFiles\main.dir\ExamGameLevel\enemy.cpp.obj.d
+  FLAGS = -g -fdiagnostics-color=always
+  INCLUDES = -isystem C:/Users/Kate/Desktop/proiproject/game/cmake-build-debug/vcpkg_installed/x64-windows/include
+  OBJECT_DIR = CMakeFiles\main.dir
+  OBJECT_FILE_DIR = CMakeFiles\main.dir\ExamGameLevel
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target main
@@ -106,7 +113,7 @@ build CMakeFiles/main.dir/MazeLevel/maze.cpp.obj: CXX_COMPILER__main_unscanned_D
 #############################################
 # Link the executable main.exe
 
-build main.exe: CXX_EXECUTABLE_LINKER__main_Debug CMakeFiles/main.dir/main.cpp.obj CMakeFiles/main.dir/RunnerLevel/level1.cpp.obj CMakeFiles/main.dir/Scenes/menu.cpp.obj CMakeFiles/main.dir/Tools/Window.cpp.obj CMakeFiles/main.dir/Scenes/LossWinScreen.cpp.obj CMakeFiles/main.dir/ExamGameLevel/ExamGame.cpp.obj CMakeFiles/main.dir/MazeLevel/maze.cpp.obj | vcpkg_installed/x64-windows/debug/lib/raylib.lib
+build main.exe: CXX_EXECUTABLE_LINKER__main_Debug CMakeFiles/main.dir/main.cpp.obj CMakeFiles/main.dir/RunnerLevel/level1.cpp.obj CMakeFiles/main.dir/Scenes/menu.cpp.obj CMakeFiles/main.dir/Tools/Window.cpp.obj CMakeFiles/main.dir/Scenes/LossWinScreen.cpp.obj CMakeFiles/main.dir/ExamGameLevel/ExamGame.cpp.obj CMakeFiles/main.dir/MazeLevel/maze.cpp.obj CMakeFiles/main.dir/ExamGameLevel/enemy.cpp.obj | vcpkg_installed/x64-windows/debug/lib/raylib.lib
   FLAGS = -g
   LINK_LIBRARIES = vcpkg_installed/x64-windows/debug/lib/raylib.lib  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\main.dir

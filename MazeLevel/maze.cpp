@@ -8,82 +8,81 @@
 #include <ctime>
 
 
-// Function to draw the maze and player
-void DrawGame(const std::vector<std::vector<Cell>>& maze, int mazeWidth, int mazeHeight, const Rectangle& player, bool gameWon) {
-    BeginDrawing();
-    ClearBackground(RAYWHITE);
-
-    DrawMaze(maze, mazeWidth, mazeHeight);
-    DrawRectangleRec(player, BLUE);
-
-    if (gameWon) {
-        DrawText("You Win!", GetScreenWidth() / 2 - MeasureText("You Win!", 40) / 2, GetScreenHeight() / 2 - 20, 40, GREEN);
-    }
-
-    EndDrawing();
-}
-
-
-void UpdatePlayer(Rectangle& player, float speed, const std::vector<std::vector<Cell>>& maze, int mazeWidth, int mazeHeight, bool& gameWon) {
-    Vector2 direction = { 0, 0 }; // Player movement direction vector
-
-    // Handle key inputs for player movement
-    if (IsKeyDown(KEY_W)) {
-        direction.y = -speed;
-    }
-    if (IsKeyDown(KEY_S)) {
-        direction.y = speed;
-    }
-    if (IsKeyDown(KEY_A)) {
-        direction.x = -speed;
-    }
-    if (IsKeyDown(KEY_D)) {
-        direction.x = speed;
-    }
-
-    Rectangle newPlayerPos = { player.x + direction.x, player.y + direction.y, player.width, player.height };
-
-    // Check for player collision with maze walls
-    if (!CheckCollisionWithWalls(newPlayerPos, maze, mazeWidth, mazeHeight)) {
-        player.x += direction.x;
-        player.y += direction.y;
-    }
-
-    // Check top right corner (game objective)
-    if (player.x > (mazeWidth - 1) * CELL_SIZE && player.y < CELL_SIZE) {
-        gameWon = true;
-    }
-}
-
 // Main function for displaying the maze and controlling the player
 void Maze(Window &window) {
-    int screenWidth = 1600;
-    int screenHeight = 900;
-    float speed = 5.0f;
-    SetTargetFPS(60);
+
+    int screenWidth = 1600; // Width of the window
+    int screenHeight = 900; // Height of the window
+    float speed = 5.0f; // Movement speed of the player
+    SetTargetFPS(60); // Set the target frames per second
 
     // Number of cells horizontally and vertically
     int mazeWidth = screenWidth / CELL_SIZE;
     int mazeHeight = screenHeight / CELL_SIZE;
 
-    // Player's initial coordinates (center left lower cell)
+    // Player’s initial coordinates (center left lower cell)
     Rectangle player = { static_cast<float>(CELL_SIZE / 2), static_cast<float>((mazeHeight - 1) * CELL_SIZE + CELL_SIZE / 2), 25.0f, 25.0f };
 
-    // Create a 2D vector to represent the maze
+    // Creating a two-dimensional vector to represent the maze
     std::vector<std::vector<Cell>> maze(mazeWidth, std::vector<Cell>(mazeHeight));
 
     // Generate the maze
     GenerateMaze(maze, mazeWidth, mazeHeight);
 
-    bool gameWon = false;
+    bool gameWon = false; // Flag indicating game completion
 
     while (!WindowShouldClose()) {
-        UpdatePlayer(player, speed, maze, mazeWidth, mazeHeight, gameWon); // Update player state
-        DrawGame(maze, mazeWidth, mazeHeight, player, gameWon); // Draw maze and player
+
+        Vector2 direction = { 0, 0 }; // Vector for player movement direction
+
+        // Keystroke handling for player control
+        if (IsKeyDown(KEY_W)) {
+            direction.y = -speed;
+        }
+        if (IsKeyDown(KEY_S)) {
+            direction.y = speed;
+        }
+        if (IsKeyDown(KEY_A)) {
+            direction.x = -speed;
+        }
+        if (IsKeyDown(KEY_D)) {
+            direction.x = speed;
+        }
+
+        Rectangle newPlayerPos = { player.x + direction.x, player.y + direction.y, player.width, player.height };
+
+        // Check for collision of player with maze walls
+        if (!CheckCollisionWithWalls(newPlayerPos, maze, mazeWidth, mazeHeight)) {
+            player.x += direction.x;
+            player.y += direction.y;
+        }
+
+        // Check the top right corner (objective of the game)
+        if (player.x > (mazeWidth - 1) * CELL_SIZE && player.y < CELL_SIZE) {
+            gameWon = true;
+        }
+
+        BeginDrawing();
+        ClearBackground(RAYWHITE); // Clear the screen
+
+        // Draw the maze
+        DrawMaze(maze, mazeWidth, mazeHeight);
+
+        // Draw the player
+        DrawRectangleRec(player, BLUE);
+
+        // Display text about game completion
+        if (gameWon) {
+            window.setScreen(Window::VICTORY);
+            break;
+        }
+
+        EndDrawing();
     }
 
-    CloseWindow();
+    CloseWindow(); // Close the window when the game ends
 }
+
 
 
 void GenerateMaze(std::vector<std::vector<Cell>>& maze, int width, int height) {
