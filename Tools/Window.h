@@ -9,7 +9,7 @@
 
 class Window{
 public:
-    typedef enum GameScreen { Menu, LEVEL1, LOSS, VICTORY } GameScreen;
+    typedef enum GameScreen { Menu, LEVEL1, LOSS, VICTORY, TETRIS } GameScreen;
 private:
     GameScreen currentScreen;
 public:

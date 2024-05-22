@@ -1,7 +1,7 @@
 #include <cmath>
 #include <random>
 #include "raylib.h"
-#include "scenes.h"
+#include "../Scenes/scenes.h"
 
 int lastrandom = 0;
 int getRandom() {           // method used to generate random coordinates of obstacles

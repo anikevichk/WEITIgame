@@ -1,6 +1,6 @@
 #include "raylib.h"
-#include "scenes.h"
-#include "Window.h"
+#include "Scenes/scenes.h"
+#include "Tools/Window.h"
 
 int main(){
     InitWindow(1600, 900, "EscapeFromWEITI");
@@ -22,6 +22,10 @@ int main(){
 
         if(currentWindow.getScreen()== Window::VICTORY){
             lossWinScreen(currentWindow, "VICTORY!");
+        }
+
+        if(currentWindow.getScreen()== Window::TETRIS){
+            Tetris(currentWindow);
         }
     }
 

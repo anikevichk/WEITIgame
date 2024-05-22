@@ -5,12 +5,13 @@ set(CMAKE_CXX_STANDARD 17)
 
 
 add_executable(main main.cpp
-        level1.cpp
-        menu.cpp
-        Window.h
-        Window.cpp
-        LossWinScreen.cpp
-        scenes.h
+        RunnerLevel/level1.cpp
+        Scenes/menu.cpp
+        Tools/Window.h
+        Tools/Window.cpp
+        Scenes/LossWinScreen.cpp
+        Scenes/scenes.h
+        TetrisLevel/TetrisLevel.cpp
 )
 
 find_package(raylib CONFIG REQUIRED)

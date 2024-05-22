@@ -3,7 +3,7 @@
 //
 #include "raylib.h"
 #include "scenes.h"
-#include  "Window.h"
+#include  "../Tools/Window.h"
 
 
 int ButtonX = 550;
