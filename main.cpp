@@ -21,7 +21,7 @@ int main(){
         }
 
         if(currentWindow.getScreen()== Window::VICTORY){
-            lossWinScreen(currentWindow, "VICTORY");
+            lossWinScreen(currentWindow, "VICTORY!");
         }
     }
 

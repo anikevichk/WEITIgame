@@ -3,11 +3,12 @@
 #include "raylib.h"
 #include "scenes.h"
 
+int lastrandom = 0;
 int getRandom() {           // method used to generate random coordinates of obstacles
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> dist(500, 2000);
-    int lastrandom = dist(gen);
+
 
     int random;
     do {
@@ -15,6 +16,7 @@ int getRandom() {           // method used to generate random coordinates of obs
 
     } while (abs(random - lastrandom) < 200);
 
+    lastrandom = random;
     return random;
 }
 
@@ -36,11 +38,11 @@ void level1(Window &window) {
     float frameTimer = 0.0f;
 
 
-    Texture2D playerSprite = LoadTexture("../src/playerSprite.png");    //textures
-    Texture2D obstacleTexture = LoadTexture("../src/obstacle.png");
-    Texture2D backgroundTexture = LoadTexture("../src/background.png");
-    Texture2D floorTexture = LoadTexture("../src/floor.png");
-    Texture2D serverTexture = LoadTexture("../src/server.png");
+    Texture2D playerSprite = LoadTexture("../src/levelRunner/playerSprite.png");    //textures
+    Texture2D obstacleTexture = LoadTexture("../src/levelRunner/obstacle.png");
+    Texture2D backgroundTexture = LoadTexture("../src/levelRunner/background.png");
+    Texture2D floorTexture = LoadTexture("../src/levelRunner/floor.png");
+    Texture2D serverTexture = LoadTexture("../src/levelRunner/server.png");
 
     Rectangle frames[] = {                              //frames for player animation
             {0,  0, 66, 95},
