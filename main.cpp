@@ -27,6 +27,10 @@ int main(){
         if(currentWindow.getScreen()== Window::EXAM){
             ExamGame(currentWindow);
         }
+
+        if(currentWindow.getScreen()== Window::MAZE){
+            Maze(currentWindow);
+        }
     }
 
 }

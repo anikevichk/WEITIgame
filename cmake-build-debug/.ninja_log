@@ -1,0 +1,13 @@
+# ninja log v5
+11	6838	7381085699634054	build.ninja	4067e2e093a05881
+84	1822	7381079499081766	CMakeFiles/main.dir/MazeLevel/Maze.cpp.obj	61dfa41c5947ad3c
+47	200	7380956957912107	CMakeFiles/main.dir/main.cpp.obj	9788628a55622d7e
+69	284	7380947826506977	CMakeFiles/main.dir/Tools/Window.cpp.obj	f99a382ef775cc5b
+53	1605	7380956907440878	CMakeFiles/main.dir/RunnerLevel/level1.cpp.obj	127c3118a2921079
+75	362	7380956894983857	CMakeFiles/main.dir/Scenes/LossWinScreen.cpp.obj	c94687283492deb4
+1823	6307	7381079502739656	main.exe	3cf3c8e48d5f1724
+41	1203	7380962332904119	CMakeFiles/main.dir/ExamGameLevel/ExamGame.cpp.obj	19decd55b110381f
+63	371	7380956895083881	CMakeFiles/main.dir/Scenes/menu.cpp.obj	9f53dc887b7b81b5
+31	17274	7381085699634054	build.ninja	4067e2e093a05881
+11	1593	7381089517540302	CMakeFiles/main.dir/MazeLevel/maze.cpp.obj	cdb8212a6bd84765
+1595	5392	7381089520400507	main.exe	feadff0ce9463908

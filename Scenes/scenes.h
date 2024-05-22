@@ -12,5 +12,6 @@ void lossWinScreen(Window& window, char *text);
 void menu(Window& window);
 void level1(Window& window);
 void ExamGame(Window &window);
+void Maze(Window &window);
 
 #endif //UNTITLED_SCREENS_H

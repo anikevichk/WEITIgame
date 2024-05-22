@@ -12,6 +12,8 @@ add_executable(main main.cpp
         Scenes/LossWinScreen.cpp
         Scenes/scenes.h
         ExamGameLevel/ExamGame.cpp
+        MazeLevel/maze.cpp
+        MazeLevel/maze.h
 )
 
 find_package(raylib CONFIG REQUIRED)
