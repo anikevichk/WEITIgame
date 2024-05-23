@@ -136,14 +136,13 @@ void ExamGame(Window &window) {
             DrawRectangleRec(enemy, RED);
         }
 
-        if (playerHealth <= 0){
-            window.setScreen(Window::LOSS);
-            break;
-        }
+            if (playerHealth <= 0){
+                window.setScreen(Window::LOSS);
+                break;
+            }
 
         EndDrawing();
     }
 
-    CloseWindow();
 
 }

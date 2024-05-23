@@ -16,20 +16,21 @@ int main(){
             level1(currentWindow);
         }
 
+        if(currentWindow.getScreen()== Window::EXAM){
+            ExamGame(currentWindow);
+        }
+
+
+        if(currentWindow.getScreen()== Window::MAZE){
+            Maze(currentWindow);
+        }
+
         if(currentWindow.getScreen()== Window::LOSS){
             lossWinScreen(currentWindow, "GAME OVER!:(");
         }
 
         if(currentWindow.getScreen()== Window::VICTORY){
             lossWinScreen(currentWindow, "VICTORY!");
-        }
-
-        if(currentWindow.getScreen()== Window::EXAM){
-            ExamGame(currentWindow);
-        }
-
-        if(currentWindow.getScreen()== Window::MAZE){
-            Maze(currentWindow);
         }
     }
 

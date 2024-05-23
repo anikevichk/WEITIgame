@@ -4,6 +4,7 @@
 #include "../cmake-build-debug/vcpkg_installed/x64-windows/include/raylib.h"
 #include "scenes.h"
 #include  "../Tools/Window.h"
+#include <iostream>
 
 
 int ButtonX = 550;
@@ -14,6 +15,9 @@ const char *Text = "back to menu";
 Rectangle Button = { ButtonX, ButtonY, 500, 200 };
 Color color = LIGHTGRAY;
 
+
+
+
 void lossWinScreen(Window& window, char *head){
 
     if (CheckCollisionPointRec(GetMousePosition(), Button))
@@ -22,15 +26,17 @@ void lossWinScreen(Window& window, char *head){
         if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
             window.setScreen(Window::Menu);
         }
+
     }
     else
     {
         color = LIGHTGRAY;
     }
 
+
     BeginDrawing();
     ClearBackground(RAYWHITE);
-    DrawText(head,500, 20, 100, BLACK);
+    DrawText(head,500, 20, 100, BLACK); //???
     DrawRectangleRec(Button, color);
     DrawText(Text,ButtonX + 55, ButtonY + 60, 60, WHITE);
     EndDrawing();
