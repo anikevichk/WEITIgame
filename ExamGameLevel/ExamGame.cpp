@@ -25,7 +25,9 @@ void ExamGame(Window &window) {
     struct Bullet {
         Rectangle rect;
         Vector2 speed;
+        bool hit = false;
     };
+
 
     std::vector<Bullet> bullets;
     std::vector<Enemy> enemies;
@@ -35,6 +37,7 @@ void ExamGame(Window &window) {
     int screenHeight = 900;
     int playerHealth = 100;
     int bulletDamage = 25;
+    int counter = 0;
     float speed = 2.0f;
     float enemySpawnRate = 10.0f;
     float enemySpawnerTimer = 10.0f;
@@ -76,10 +79,9 @@ void ExamGame(Window &window) {
             direction = { 1, 0 };
         }
 
-//        enemy.moveToPlayer(player.x, player.y);
 
         if (IsKeyPressed(KEY_SPACE)) {
-            Bullet newBullet = { { player.x + player.width / 2, player.y, 5, 5 }, {direction.x * 5.0f, direction.y * 5.0f } };
+            Bullet newBullet = { { player.x + player.width / 2, player.y + player.height / 2, 5, 5 }, {direction.x * 5.0f, direction.y * 5.0f } };
             bullets.push_back(newBullet);
         }
 
@@ -92,7 +94,8 @@ void ExamGame(Window &window) {
             return b.rect.y < 0 ||
                     b.rect.y > screenHeight ||
                     b.rect.x < 0 ||
-                    b.rect.x > screenWidth; }), bullets.end());
+                    b.rect.x > screenWidth ||
+                    b.hit; }), bullets.end());
 
         enemies.erase(std::remove_if(enemies.begin(), enemies.end(), [](Enemy& enemy) {
             return enemy.GetHealth() <= 0;}), enemies.end());
@@ -117,7 +120,6 @@ void ExamGame(Window &window) {
 
         DrawRectangleRec(player, BLUE);
         DrawRectangleRec(healthBar, RED);
-//        DrawRectangleRec(enemy,RED);
 
         for (const auto &bullet : bullets) {
             DrawRectangleRec(bullet.rect, RED);
@@ -129,13 +131,14 @@ void ExamGame(Window &window) {
             for (auto& bullet : bullets) {
                 if (CheckCollisionRecs(enemy, bullet.rect)) {
                     enemy.ReceiveDamage(bulletDamage);
+                    bullet.hit = true;
+                    ++counter;
                 }
             }
 
             if (CheckCollisionRecs(enemy, player) && damageTimer >= damageRate){
                 damageTimer = 0.0f;
                 playerHealth -= enemy.GetDamage();
-//                healthBar.width -= enemy.GetDamage();
                 healthBar.width -= 75 * enemy.GetDamage()/100;
             }
 
@@ -147,6 +150,13 @@ void ExamGame(Window &window) {
                 window.setScreen(Window::LOSS);
                 break;
             }
+
+        if (counter >= 100){
+            window.setScreen(Window::VICTORY);
+            break;
+        }
+
+        DrawText(TextFormat("100/ %i", counter), screenWidth - 125, 0, 30, BLACK);
 
 
         EndDrawing();

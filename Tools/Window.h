@@ -2,7 +2,7 @@
 // Created by matve on 20.05.2024.
 //
 
-#include"../cmake-build-debug/vcpkg_installed/x64-windows/include/raylib.h"
+#include"raylib.h"
 
 #ifndef UNTITLED_TOOLS_H
 #define UNTITLED_TOOLS_H
