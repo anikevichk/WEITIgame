@@ -5,7 +5,7 @@
 #include "../cmake-build-debug/vcpkg_installed/x64-windows/include/raylib.h"
 
 // Size of the maze cell
-#define CELL_SIZE 200
+#define CELL_SIZE 100
 
 // Structure representing the maze cell
 struct Cell {

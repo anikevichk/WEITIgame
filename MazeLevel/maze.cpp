@@ -13,8 +13,8 @@ void Maze(Window &window) {
 
     int screenWidth = 1600; // Width of the window
     int screenHeight = 900; // Height of the window
-    float speed = 5.0f; // Movement speed of the player
-    SetTargetFPS(60); // Set the target frames per second
+    float speed = 5.0f;
+    SetTargetFPS(60);
 
     // Number of cells horizontally and vertically
     int mazeWidth = screenWidth / CELL_SIZE;
@@ -26,10 +26,9 @@ void Maze(Window &window) {
     // Creating a two-dimensional vector to represent the maze
     std::vector<std::vector<Cell>> maze(mazeWidth, std::vector<Cell>(mazeHeight));
 
-    // Generate the maze
     GenerateMaze(maze, mazeWidth, mazeHeight);
 
-    bool gameWon = false; // Flag indicating game completion
+    bool gameWon = false;
 
     while (!WindowShouldClose()) {
 
@@ -63,7 +62,7 @@ void Maze(Window &window) {
         }
 
         BeginDrawing();
-        ClearBackground(RAYWHITE); // Clear the screen
+        ClearBackground(RAYWHITE);
 
         // Draw the maze
         DrawMaze(maze, mazeWidth, mazeHeight);
@@ -79,8 +78,6 @@ void Maze(Window &window) {
 
         EndDrawing();
     }
-
-    CloseWindow(); // Close the window when the game ends
 }
 
 
@@ -98,7 +95,7 @@ void GenerateMaze(std::vector<std::vector<Cell>>& maze, int width, int height) {
         }
     }
 
-    std::stack<Cell*> stack;                // Stack to execute the algorithm Recursive Backtracking (DFS)
+    std::stack<Cell*> stack;                // Stack to execute the algorithm
 
     srand(time(0));              // Initialization of the random number generator
     // Random starting position Y and X
@@ -162,22 +159,22 @@ void DrawMaze(const std::vector<std::vector<Cell>>& maze, int width, int height)
         for (int y = 0; y < height; y++) {
             // Draw cell walls if they exist
             if (maze[x][y].topWall) {
-                DrawRectangle(x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, 2, BLACK);
+                DrawRectangle(x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, 5, BLACK);
             }
             if (maze[x][y].bottomWall) {
-                DrawRectangle(x * CELL_SIZE, (y + 1) * CELL_SIZE - 2, CELL_SIZE, 2, BLACK);
+                DrawRectangle(x * CELL_SIZE, (y + 1) * CELL_SIZE - 2, CELL_SIZE, 5, BLACK);
             }
             if (maze[x][y].leftWall) {
-                DrawRectangle(x * CELL_SIZE, y * CELL_SIZE, 2, CELL_SIZE, BLACK);
+                DrawRectangle(x * CELL_SIZE, y * CELL_SIZE, 5, CELL_SIZE, BLACK);
             }
             if (maze[x][y].rightWall) {
-                DrawRectangle((x + 1) * CELL_SIZE - 2, y * CELL_SIZE, 2, CELL_SIZE, BLACK);
+                DrawRectangle((x + 1) * CELL_SIZE - 2, y * CELL_SIZE, 5, CELL_SIZE, BLACK);
             }
         }
     }
 }
 
-// Функция для проверки столкновений игрока с стенами лабиринта
+// Feature to check for player collisions with maze walls
 bool CheckCollisionWithWalls(Rectangle player, const std::vector<std::vector<Cell>>& maze, int width, int height) {
     int x = player.x / CELL_SIZE;
     int y = player.y / CELL_SIZE;
