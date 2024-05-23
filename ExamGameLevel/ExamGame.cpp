@@ -38,11 +38,12 @@ void ExamGame(Window &window) {
     float speed = 2.0f;
     float enemySpawnRate = 10.0f;
     float enemySpawnerTimer = 10.0f;
-    float damageRate = 0.0f;
+    float damageRate = 2.0f;
     float damageTimer = 2.0;
 
     Rectangle player = { 400, 300, 25, 25 };
-//    Enemy enemy = { 1,2,25,30,5,6};
+    Rectangle healthBar = { player.x-15, player.y - 20, 70, 5 };
+
 
 
 
@@ -111,7 +112,11 @@ void ExamGame(Window &window) {
         BeginDrawing();
         ClearBackground(RAYWHITE);
 
+        healthBar.x = player.x - 25;
+        healthBar.y = player.y -20;
+
         DrawRectangleRec(player, BLUE);
+        DrawRectangleRec(healthBar, RED);
 //        DrawRectangleRec(enemy,RED);
 
         for (const auto &bullet : bullets) {
@@ -130,20 +135,22 @@ void ExamGame(Window &window) {
             if (CheckCollisionRecs(enemy, player) && damageTimer >= damageRate){
                 damageTimer = 0.0f;
                 playerHealth -= enemy.GetDamage();
+//                healthBar.width -= enemy.GetDamage();
+                healthBar.width -= 75 * enemy.GetDamage()/100;
             }
 
             enemy.moveToPlayer(player.x, player.y);
             DrawRectangleRec(enemy, RED);
         }
 
-        if (playerHealth <= 0){
-            window.setScreen(Window::LOSS);
-            break;
-        }
+            if (playerHealth <= 0){
+                window.setScreen(Window::LOSS);
+                break;
+            }
+
 
         EndDrawing();
     }
 
-    CloseWindow();
 
 }
