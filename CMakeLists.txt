@@ -4,6 +4,7 @@ project(untitled)
 set(CMAKE_CXX_STANDARD 17)
 
 
+
 add_executable(main main.cpp
         RunnerLevel/level1.cpp
         Scenes/menu.cpp

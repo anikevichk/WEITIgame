@@ -14,8 +14,6 @@ struct Cell {
     bool topWall, bottomWall, leftWall, rightWall;
 };
 
-void DrawGame(const std::vector<std::vector<Cell>>& maze, int mazeWidth, int mazeHeight, const Rectangle& player, bool gameWon);
-void UpdatePlayer(Rectangle& player, float speed, const std::vector<std::vector<Cell>>& maze, int mazeWidth, int mazeHeight, bool& gameWon);
 void Maze(Window &window);
 void GenerateMaze(std::vector<std::vector<Cell>>& maze, int width, int height);
 void DrawMaze(const std::vector<std::vector<Cell>>& maze, int width, int height);

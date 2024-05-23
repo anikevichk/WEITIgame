@@ -7,32 +7,40 @@
 #include <stack>
 #include <ctime>
 
-
-// Main function for displaying the maze and controlling the player
+// Main function for display of maze and player control
 void Maze(Window &window) {
-
-    int screenWidth = 1600; // Width of the window
-    int screenHeight = 900; // Height of the window
+    int screenWidth = 1600;
+    int screenHeight = 900;
     float speed = 5.0f;
     SetTargetFPS(60);
 
-    // Number of cells horizontally and vertically
+    // Number of horizontal and vertical cells
     int mazeWidth = screenWidth / CELL_SIZE;
     int mazeHeight = screenHeight / CELL_SIZE;
 
-    // Player’s initial coordinates (center left lower cell)
+    // Player’s initial coordinates (centre of left lower cell)
     Rectangle player = { static_cast<float>(CELL_SIZE / 2), static_cast<float>((mazeHeight - 1) * CELL_SIZE + CELL_SIZE / 2), 25.0f, 25.0f };
 
-    // Creating a two-dimensional vector to represent the maze
+    // Create a two-dimensional vector to represent the maze
     std::vector<std::vector<Cell>> maze(mazeWidth, std::vector<Cell>(mazeHeight));
 
     GenerateMaze(maze, mazeWidth, mazeHeight);
 
+    // Spawn 5 red squares in random positions
+    srand(time(0));
+    std::vector<Rectangle> redSquares;
+    for (int i = 0; i < 5; i++) {
+        int redSquareX = rand() % mazeWidth;
+        int redSquareY = rand() % mazeHeight;
+        Rectangle redSquare = { static_cast<float>(redSquareX * CELL_SIZE + CELL_SIZE / 4), static_cast<float>(redSquareY * CELL_SIZE + CELL_SIZE / 4), 25, 25};
+        redSquares.push_back(redSquare);
+    }
+
+    int collectedSquares = 0;
     bool gameWon = false;
 
     while (!WindowShouldClose()) {
-
-        Vector2 direction = { 0, 0 }; // Vector for player movement direction
+        Vector2 direction = { 0, 0 }; // Vector of the player’s direction
 
         // Keystroke handling for player control
         if (IsKeyDown(KEY_W)) {
@@ -56,21 +64,34 @@ void Maze(Window &window) {
             player.y += direction.y;
         }
 
-        // Check the top right corner (objective of the game)
-        if (player.x > (mazeWidth - 1) * CELL_SIZE && player.y < CELL_SIZE) {
+        // Check if the player has collected a red square
+        for (auto& redSquare : redSquares) {
+            if (CheckCollisionRecs(player, redSquare)) {
+                redSquare = { -CELL_SIZE, -CELL_SIZE, 0, 0 }; // Remove the assembled square behind the screen
+                collectedSquares++;
+            }
+        }
+
+        // Check upper right corner (game goal)
+        if (collectedSquares == 5 && player.x > (mazeWidth - 1) * CELL_SIZE && player.y < CELL_SIZE) {
             gameWon = true;
         }
 
         BeginDrawing();
         ClearBackground(RAYWHITE);
 
-        // Draw the maze
         DrawMaze(maze, mazeWidth, mazeHeight);
 
-        // Draw the player
-        DrawRectangleRec(player, BLUE);
+        // Drawing of red squares
+        for (const auto& redSquare : redSquares) {
+            if (redSquare.width > 0 && redSquare.height > 0) { // Draw only squares that have not been collected
+                DrawRectangleRec(redSquare, RED);
+            }
+        }
 
-        // Display text about game completion
+        DrawRectangleRec(player, BLUE);
+        DrawText(TextFormat("Collected: %d/5", collectedSquares), 10, 10, 20, BLACK);
+
         if (gameWon) {
             window.setScreen(Window::VICTORY);
             break;
@@ -80,58 +101,42 @@ void Maze(Window &window) {
     }
 }
 
-
-
 void GenerateMaze(std::vector<std::vector<Cell>>& maze, int width, int height) {
-    /*
-    For each maze cell at [x][y] the initial values are set:
-    x and y are cell coordinates,
-    false - a flag indicating that the cell has not yet been visited (for the maze generation algorithm),
-    true - flags indicating the presence of walls at the cell. In this case, all walls are set in the state of "true".
-    */
     for (int x = 0; x < width; x++) {
         for (int y = 0; y < height; y++) {
             maze[x][y] = { x, y, false, true, true, true, true };
         }
     }
 
-    std::stack<Cell*> stack;                // Stack to execute the algorithm
+    std::stack<Cell*> stack;
 
-    srand(time(0));              // Initialization of the random number generator
-    // Random starting position Y and X
+    srand(time(0));
     int startX = rand() % width;
     int startY = rand() % height;
 
-    maze[startX][startY].visited = true;    // Initial cell marked as visited
-    stack.push(&maze[startX][startY]);   // Adding the starting cell to the stack
-
+    maze[startX][startY].visited = true;
+    stack.push(&maze[startX][startY]);
 
     while (!stack.empty()) {
         Cell* current = stack.top();
         std::vector<Cell*> neighbors;
 
-        // Checking the possibility of moving to the left
         if (current->x > 0 && !maze[current->x - 1][current->y].visited) {
             neighbors.push_back(&maze[current->x - 1][current->y]);
         }
-        // Checking the possibility of moving to the right
         if (current->x < width - 1 && !maze[current->x + 1][current->y].visited) {
             neighbors.push_back(&maze[current->x + 1][current->y]);
         }
-        // Checking the possibility of moving upwards
         if (current->y > 0 && !maze[current->x][current->y - 1].visited) {
             neighbors.push_back(&maze[current->x][current->y - 1]);
         }
-        // Checking the possibility of moving downwards
         if (current->y < height - 1 && !maze[current->x][current->y + 1].visited) {
             neighbors.push_back(&maze[current->x][current->y + 1]);
         }
 
-        // Choosing a random neighbor to continue the journey
         if (!neighbors.empty()) {
             Cell* next = neighbors[rand() % neighbors.size()];
 
-            // Remove wall between current cell and selected neighbor
             if (next->x == current->x - 1) {
                 current->leftWall = false;
                 next->rightWall = false;
@@ -149,7 +154,7 @@ void GenerateMaze(std::vector<std::vector<Cell>>& maze, int width, int height) {
             next->visited = true;
             stack.push(next);
         } else {
-            stack.pop(); // Remove the current cell from the stack if no neighbors are available
+            stack.pop();
         }
     }
 }
@@ -157,7 +162,6 @@ void GenerateMaze(std::vector<std::vector<Cell>>& maze, int width, int height) {
 void DrawMaze(const std::vector<std::vector<Cell>>& maze, int width, int height) {
     for (int x = 0; x < width; x++) {
         for (int y = 0; y < height; y++) {
-            // Draw cell walls if they exist
             if (maze[x][y].topWall) {
                 DrawRectangle(x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, 5, BLACK);
             }
@@ -174,7 +178,6 @@ void DrawMaze(const std::vector<std::vector<Cell>>& maze, int width, int height)
     }
 }
 
-// Feature to check for player collisions with maze walls
 bool CheckCollisionWithWalls(Rectangle player, const std::vector<std::vector<Cell>>& maze, int width, int height) {
     int x = player.x / CELL_SIZE;
     int y = player.y / CELL_SIZE;
@@ -190,4 +193,3 @@ bool CheckCollisionWithWalls(Rectangle player, const std::vector<std::vector<Cel
 
     return false;
 }
-
