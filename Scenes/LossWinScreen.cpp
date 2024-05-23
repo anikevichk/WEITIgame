@@ -36,7 +36,7 @@ void lossWinScreen(Window& window, char *head){
 
     BeginDrawing();
     ClearBackground(RAYWHITE);
-    DrawText(head,500, 20, 100, BLACK); //???
+    DrawText(head,500, 20, 100, BLACK); //
     DrawRectangleRec(Button, color);
     DrawText(Text,ButtonX + 55, ButtonY + 60, 60, WHITE);
     EndDrawing();
