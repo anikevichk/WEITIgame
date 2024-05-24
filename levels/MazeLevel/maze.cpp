@@ -1,5 +1,5 @@
-#include "../cmake-build-debug/vcpkg_installed/x64-windows/include/raylib.h"
-#include "../Scenes/scenes.h"
+#include "raylib.h"
+#include "../../Scenes/scenes.h"
 #include "maze.h"
 #include <vector>
 #include <iostream>
