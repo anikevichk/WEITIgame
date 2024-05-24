@@ -7,17 +7,14 @@
 #include <stack>
 #include <ctime>
 
-// Main function for display of maze and player control
+
 void Maze(Window &window) {
-    // Screen dimensions
     int screenWidth = 1600;
     int screenHeight = 900;
-    // Player movement speed
     float speed = 5.0f;
-    // Set target frames per second
     SetTargetFPS(60);
 
-    // Variables for player animation
+    // Player animation variables
     int currentFrame = 0;
     float frameRate = 0.1f;
     float frameTimer = 0.0f;
@@ -29,56 +26,42 @@ void Maze(Window &window) {
             {73,  0, 66, 95},
             {146, 0, 66, 95}
     };
-
     Rectangle runLeftFrames[] = {
             {0,   104, 66, 95},
             {73,  104, 66, 95},
             {146, 104, 66, 95}
     };
-
     Rectangle runBackFrames[] = {
             {0,   208, 73, 95},
             {75,  208, 73, 95},
             {158, 208, 73, 95}
     };
-
     Rectangle runForwardFrames[] = {
             {0,   312, 73, 95},
             {75,  312, 73, 95},
             {158, 312, 73, 95}
     };
-
     Rectangle *currentFrames = runRightFrames;
 
     // Number of horizontal and vertical cells
     int mazeWidth = screenWidth / CELL_SIZE;
     int mazeHeight = screenHeight / CELL_SIZE;
 
-    // Player’s initial coordinates (centre of left lower cell)
-    Rectangle player = { 15, 807, 70.0f, 90.0f };
+    // Player’s initial coordinates
+    Rectangle player = {15, 807, 70.0f, 90.0f};
 
     // Create a two-dimensional vector to represent the maze
     std::vector<std::vector<Cell>> maze(mazeWidth, std::vector<Cell>(mazeHeight));
-
     // Generate the maze
     GenerateMaze(maze, mazeWidth, mazeHeight);
 
     // Load textures
-    Texture2D hotdog = LoadTexture("../src/levelMaze/hotdog.png");
-    Texture2D wallH = LoadTexture("../src/levelMaze/wallH.png");
-    Texture2D wallV = LoadTexture("../src/levelMaze/wallV.png");
-    Texture2D sprite = LoadTexture("../src/levelMaze/sprite.png");
+    Texture2D hotdog, wallH, wallV, sprite, background;
+    LoadTextures(hotdog, wallH, wallV, sprite, background);
 
     // Spawn 5 hotdogs in random positions
-    srand(time(0));
     std::vector<Rectangle> hotdogs;
-    for (int i = 0; i < 5; i++) {
-        int hotdogX = rand() % mazeWidth;
-        int hotdogY = rand() % mazeHeight;
-        Rectangle hotdogRect = {static_cast<float>(hotdogX * CELL_SIZE + CELL_SIZE / 4),
-                                static_cast<float>(hotdogY * CELL_SIZE + CELL_SIZE / 4), 75, 75};
-        hotdogs.push_back(hotdogRect);
-    }
+    SpawnHotdogs(hotdogs, mazeWidth, mazeHeight);
 
     // Variables to track collected hotdogs and game state
     int collectedHotdogs = 0;
@@ -88,51 +71,13 @@ void Maze(Window &window) {
     while (!WindowShouldClose()) {
         // Player movement direction vector
         Vector2 direction = {0, 0};
-        // Previous player position
-        Rectangle previousPosition = player;
 
-        // Check player input for movement
-        if (IsKeyDown(KEY_W)) {
-            direction = {0, -speed};
-            currentFrames = runForwardFrames;
-            isKeyPressed = true;
-        } else if (IsKeyDown(KEY_S)) {
-            direction = {0, speed};
-            currentFrames = runBackFrames;
-            isKeyPressed = true;
-        } else if (IsKeyDown(KEY_A)) {
-            direction = {-speed, 0};
-            currentFrames = runLeftFrames;
-            isKeyPressed = true;
-        } else if (IsKeyDown(KEY_D)) {
-            direction = {speed, 0};
-            currentFrames = runRightFrames;
-            isKeyPressed = true;
-        } else {
-            isKeyPressed = false;
-        }
-
-        // Calculate new player position after movement
-        Rectangle newPlayerPos = {player.x + direction.x, player.y + direction.y, player.width, player.height};
-
-        // Check collision with maze walls
-        if (!CheckCollisionWithWalls(newPlayerPos, maze, mazeWidth, mazeHeight)) {
-            // No collision, move player
-            player.x += direction.x;
-            player.y += direction.y;
-        } else {
-            // Collision detected, restore previous position
-            player = previousPosition;
-        }
+        // Update player position based on input
+        UpdatePlayerPosition(player, direction, speed, isKeyPressed, currentFrames, runForwardFrames,
+                             runBackFrames, runLeftFrames, runRightFrames, maze, mazeWidth, mazeHeight);
 
         // Check if player collected a hotdog
-        for (auto &hotdogRect: hotdogs) {
-            if (CheckCollisionRecs(player, hotdogRect)) {
-                // Remove collected hotdog from screen
-                hotdogRect = {-CELL_SIZE, -CELL_SIZE, 0, 0};
-                collectedHotdogs++;
-            }
-        }
+        CheckHotdogCollection(player, hotdogs, collectedHotdogs);
 
         // Check if player reached the top right corner (game goal)
         if (collectedHotdogs == 5 && player.x > (mazeWidth - 1) * CELL_SIZE && player.y < CELL_SIZE) {
@@ -143,32 +88,22 @@ void Maze(Window &window) {
         BeginDrawing();
         ClearBackground(RAYWHITE);
 
-        // Update frame timer
-        frameTimer += GetFrameTime();
-        if (frameTimer >= frameRate) {
-            frameTimer = 0.0f;
-            if (isKeyPressed) {
-                currentFrame++;
-                if (currentFrame >= 3) {
-                    currentFrame = 0;
-                }
-            } else currentFrame = 0;
-        }
+        // Update frame timer and animate player
+        AnimatePlayer(currentFrames, currentFrame, frameTimer, frameRate, isKeyPressed);
+
+        DrawTexture(background, 0, 0, WHITE);
 
         // Draw player texture with offset
         DrawTextureRec(sprite, currentFrames[currentFrame],
-                       (Vector2) {player.x + player.width / 2 - 66 / 2, player.y + player.height / 2 - 95 / 2}, WHITE);
+                       (Vector2) {player.x + player.width / 2 - 66 / 2, player.y + player.height / 2 - 95 / 2},
+                       WHITE);
 
         // Draw maze walls
         DrawMaze(maze, mazeWidth, mazeHeight, wallH, wallV);
 
-        // Draw red rectangle representing player
-        DrawRectangle(player.x, player.y, player.width, player.height, RED);
-
         // Draw hotdogs
         for (const auto &hotdogRect: hotdogs) {
             if (hotdogRect.width > 0 && hotdogRect.height > 0) {
-                // Draw only those hotdogs that are not collected
                 DrawTexture(hotdog, hotdogRect.x, hotdogRect.y, WHITE);
             }
         }
@@ -187,9 +122,105 @@ void Maze(Window &window) {
     }
 
     // Unload textures
+    UnloadTextures(hotdog, wallH, wallV, background);
+}
+
+// Function to load textures
+void LoadTextures(Texture2D &hotdog, Texture2D &wallH, Texture2D &wallV, Texture2D &sprite, Texture2D &background) {
+    hotdog = LoadTexture("../src/levelMaze/hotdog.png");
+    wallH = LoadTexture("../src/levelMaze/wallH.png");
+    wallV = LoadTexture("../src/levelMaze/wallV.png");
+    sprite = LoadTexture("../src/levelMaze/sprite.png");
+    background = LoadTexture("../src/levelMaze/background.png");
+}
+
+// Function to unload textures
+void UnloadTextures(Texture2D hotdog, Texture2D wallH, Texture2D wallV, Texture2D background) {
     UnloadTexture(hotdog);
     UnloadTexture(wallH);
     UnloadTexture(wallV);
+    UnloadTexture(background);
+}
+
+// Function to spawn hotdogs at random positions
+void SpawnHotdogs(std::vector<Rectangle> &hotdogs, int mazeWidth, int mazeHeight) {
+    srand(time(0));
+    for (int i = 0; i < 5; i++) {
+        int hotdogX = rand() % mazeWidth;
+        int hotdogY = rand() % mazeHeight;
+        Rectangle hotdogRect = {static_cast<float>(hotdogX * CELL_SIZE + CELL_SIZE / 4),
+                                static_cast<float>(hotdogY * CELL_SIZE + CELL_SIZE / 4), 75, 75};
+        hotdogs.push_back(hotdogRect);
+    }
+}
+
+// Function to update player's position based on input
+void UpdatePlayerPosition(Rectangle &player, Vector2 &direction, float speed, bool &isKeyPressed,
+                          Rectangle* &currentFrames, Rectangle runForwardFrames[], Rectangle runBackFrames[],
+                          Rectangle runLeftFrames[], Rectangle runRightFrames[],
+                          const std::vector<std::vector<Cell>> &maze, int mazeWidth, int mazeHeight) {
+    Rectangle previousPosition = player;
+
+    // Check player input for movement
+    if (IsKeyDown(KEY_W)) {
+        direction = {0, -speed};
+        currentFrames = runForwardFrames;
+        isKeyPressed = true;
+    } else if (IsKeyDown(KEY_S)) {
+        direction = {0, speed};
+        currentFrames = runBackFrames;
+        isKeyPressed = true;
+    } else if (IsKeyDown(KEY_A)) {
+        direction = {-speed, 0};
+        currentFrames = runLeftFrames;
+        isKeyPressed = true;
+    } else if (IsKeyDown(KEY_D)) {
+        direction = {speed, 0};
+        currentFrames = runRightFrames;
+        isKeyPressed = true;
+    } else {
+        isKeyPressed = false;
+    }
+
+    // Calculate new player position after movement
+    Rectangle newPlayerPos = {player.x + direction.x, player.y + direction.y, player.width, player.height};
+
+    // Check collision with maze walls
+    if (!CheckCollisionWithWalls(newPlayerPos, maze, mazeWidth, mazeHeight)) {
+        // No collision, move player
+        player.x += direction.x;
+        player.y += direction.y;
+    } else {
+        // Collision detected, restore previous position
+        player = previousPosition;
+    }
+}
+
+// Function to animate player based on frame timer
+void AnimatePlayer(Rectangle* &currentFrames, int &currentFrame, float &frameTimer, float frameRate, bool isKeyPressed) {
+    frameTimer += GetFrameTime();
+    if (frameTimer >= frameRate) {
+        frameTimer = 0.0f;
+        if (isKeyPressed) {
+            currentFrame++;
+            if (currentFrame >= 3) {
+                currentFrame = 0;
+            }
+        } else {
+            currentFrame = 0;
+        }
+    }
+}
+
+// Function to check if player collected a hotdog
+void CheckHotdogCollection(Rectangle &player, std::vector<Rectangle> &hotdogs, int &collectedHotdogs) {
+    for (auto &hotdogRect: hotdogs) {
+        if (CheckCollisionRecs(player, hotdogRect)) {
+            // Remove collected hotdog from screen
+            hotdogRect = {-CELL_SIZE, -CELL_SIZE, 0, 0};
+            collectedHotdogs++;
+        }
+    }
 }
 
 // Function to generate the maze
