@@ -3,7 +3,7 @@
 
 #include <vector>
 #include "../cmake-build-debug/vcpkg_installed/x64-windows/include/raylib.h"
-
+#include "../Tools/Window.h"
 // Size of the maze cell
 #define CELL_SIZE 100
 
