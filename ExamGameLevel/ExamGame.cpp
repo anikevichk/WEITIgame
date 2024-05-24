@@ -28,6 +28,7 @@ void ExamGame(Window &window) {
         bool hit = false;
     };
 
+
 //    struct Cell {
 //        std::vector<Enemy*> enemies;
 //    };
@@ -42,7 +43,8 @@ void ExamGame(Window &window) {
     int playerHealth = 100;
     int bulletDamage = 25;
     int counter = 0;
-    int gridSize = 100;
+//    int gridSize = 100;
+    int FrameSize;
     float speed = 2.0f;
     float enemySpawnRate = 10.0f;
     float enemySpawnerTimer = 10.0f;
@@ -52,37 +54,45 @@ void ExamGame(Window &window) {
     float frameRate = 0.1f;
     float frameTimer = 0.0f;
     bool isKeyPressed = false;
+    float hotDogTimer = 10.0f;
+    float hotDogRate = 20.0f;
 
-    Texture2D playerSprite = LoadTexture("../src/levelRunner/playerSprite.png");
+    Texture2D playerSprite = LoadTexture("../src/levelExam/playerSprite.png");
+    Texture2D hotdogTexture = LoadTexture("../src/levelExam/hotdog.png");
+
 
 //    std::vector<std::vector<Cell>> grid(screenWidth / gridSize, std::vector<Cell>(screenHeight / gridSize));
 
     Rectangle runRightFrames[] = {                              //frames for player animation
-            {0,  0, 66, 95},
-            {73, 0, 66, 95}
+            {0,  0, 70, 95},
+            {73, 0, 70, 95}
     };
 
     Rectangle runLeftFrames[] = {                              //frames for player animation
-            {0,  104, 66, 95},
-            {73, 104, 66, 95}
+            {0,  104, 70, 95},
+            {73, 104, 70, 95}
     };
 
     Rectangle runBackFrames[] = {                              //frames for player animation
-            {0,  208, 66, 95},
-            {0,  208, 66, 95}
+            {0,  208, 73, 95},
+            {80,  208, 73, 95},
+            {160,  208, 73, 95}
 
     };
 
     Rectangle runForwardFrames[] = {                              //frames for player animation
-            {0,  312, 66, 95},
-            {0,  312, 66, 95}
+            {0,  312, 73, 95},
+            {80,  312, 73, 95},
+            {160,  312, 73, 95}
+
 
     };
 
     Rectangle* currentFrames = runRightFrames;
 
-    Rectangle player = { 400, 300, 25, 25 };
+    Rectangle player = { 800, 450, 50, 95 };
     Rectangle healthBar = { player.x-15, player.y - 20, 70, 5 };
+    Rectangle hotdog = {-30, -30, 25, 25 };
 
 
 
@@ -119,6 +129,7 @@ void ExamGame(Window &window) {
             direction = { 0, -1 };
 
             currentFrames = runForwardFrames;
+            FrameSize = 3;
             isKeyPressed = true;
         }
         else if (IsKeyDown(KEY_S)) {
@@ -128,6 +139,7 @@ void ExamGame(Window &window) {
             direction = { 0, 1 };
 
             currentFrames = runBackFrames;
+            FrameSize = 3;
             isKeyPressed = true;
 
         }
@@ -138,6 +150,7 @@ void ExamGame(Window &window) {
             direction = { -1, 0 };
 
             currentFrames = runLeftFrames;
+            FrameSize = 2;
             isKeyPressed = true;
 
         }
@@ -148,13 +161,14 @@ void ExamGame(Window &window) {
             direction = { 1, 0 };
 
             currentFrames = runRightFrames;
+            FrameSize = 2;
             isKeyPressed = true;
 
         } else isKeyPressed = false;
 
 
         if (IsKeyPressed(KEY_SPACE)) {
-            Bullet newBullet = { { player.x + player.width / 2, player.y + player.height / 2, 5, 5 }, {direction.x * 5.0f, direction.y * 5.0f } };
+            Bullet newBullet = { { player.x + player.width / 2 + 12, player.y + player.height / 2+20, 5, 5 }, {direction.x * 5.0f, direction.y * 5.0f } };
             bullets.push_back(newBullet);
         }
 
@@ -236,11 +250,11 @@ void ExamGame(Window &window) {
                 if (CheckCollisionRecs(enemy, player) && damageTimer >= damageRate) {
                     damageTimer = 0.0f;
                     playerHealth -= enemy.GetDamage();
-                    healthBar.width -= 75 * enemy.GetDamage() / 100;
+//                    healthBar.width -= 75 * enemy.GetDamage() / 100;
                 }
             }
 
-            enemy.moveToPlayer(player.x, player.y);
+            enemy.moveToPlayer(player.x + player.width/2, player.y + player.height/2);
 
             DrawRectangleRec(enemy, RED);
         }
@@ -263,15 +277,34 @@ void ExamGame(Window &window) {
             if(isKeyPressed) {
                 currentFrame++;
 
-                if (currentFrame >= 2) {
+                if (currentFrame >= FrameSize) {
                     currentFrame = 0;
                 }
             } else currentFrame = 0;
         }
 
+        hotDogTimer += GetFrameTime();
+        if (hotDogTimer >= hotDogRate){
+            hotDogTimer = 0.0f;
+            hotdog.x = GetRandomValue(0, screenWidth);
+            hotdog.y = GetRandomValue(0, screenHeight);
+        }
+
+        if(CheckCollisionRecs(hotdog, player)){
+            playerHealth += 25;
+            hotdog.x = -30;
+            hotdog.y = -30;
+        }
+;
+        healthBar.width =static_cast<int>( 70.0f * (static_cast<float>(playerHealth)/100.0f));
+
         DrawText(TextFormat("100/ %i", counter), screenWidth - 125, 0, 30, BLACK);
-        DrawTextureRec(playerSprite, currentFrames[currentFrame], (Vector2) {player.x - 45, player.y - 50}, WHITE);
+//        DrawRectangleRec(player, BLUE);
+        DrawTextureRec(playerSprite, currentFrames[currentFrame], (Vector2) {player.x - 15, player.y }, WHITE);
+        DrawTexture(hotdogTexture, hotdog.x, hotdog.y, WHITE );
         DrawRectangleRec(healthBar, RED);
+
+
 
 
 
