@@ -48,9 +48,38 @@ void ExamGame(Window &window) {
     float enemySpawnerTimer = 10.0f;
     float damageRate = 2.0f;
     float damageTimer = 2.0;
+    int currentFrame = 0;
+    float frameRate = 0.1f;
+    float frameTimer = 0.0f;
+    bool isKeyPressed = false;
+
+    Texture2D playerSprite = LoadTexture("../src/levelRunner/playerSprite.png");
 
 //    std::vector<std::vector<Cell>> grid(screenWidth / gridSize, std::vector<Cell>(screenHeight / gridSize));
 
+    Rectangle runRightFrames[] = {                              //frames for player animation
+            {0,  0, 66, 95},
+            {73, 0, 66, 95}
+    };
+
+    Rectangle runLeftFrames[] = {                              //frames for player animation
+            {0,  104, 66, 95},
+            {73, 104, 66, 95}
+    };
+
+    Rectangle runBackFrames[] = {                              //frames for player animation
+            {0,  208, 66, 95},
+            {0,  208, 66, 95}
+
+    };
+
+    Rectangle runForwardFrames[] = {                              //frames for player animation
+            {0,  312, 66, 95},
+            {0,  312, 66, 95}
+
+    };
+
+    Rectangle* currentFrames = runRightFrames;
 
     Rectangle player = { 400, 300, 25, 25 };
     Rectangle healthBar = { player.x-15, player.y - 20, 70, 5 };
@@ -88,25 +117,40 @@ void ExamGame(Window &window) {
                 player.y -= speed;
             }
             direction = { 0, -1 };
+
+            currentFrames = runForwardFrames;
+            isKeyPressed = true;
         }
-        if (IsKeyDown(KEY_S)) {
+        else if (IsKeyDown(KEY_S)) {
             if(player.y < screenHeight-25) {
                 player.y += speed;
             }
             direction = { 0, 1 };
+
+            currentFrames = runBackFrames;
+            isKeyPressed = true;
+
         }
-        if (IsKeyDown(KEY_A)) {
+        else if (IsKeyDown(KEY_A)) {
             if(player.x > 0) {
                 player.x -= speed;
             }
             direction = { -1, 0 };
-        };
-        if (IsKeyDown(KEY_D)) {
+
+            currentFrames = runLeftFrames;
+            isKeyPressed = true;
+
+        }
+        else if (IsKeyDown(KEY_D)) {
             if (player.x < screenWidth - 25) {
                 player.x += speed;
             }
             direction = { 1, 0 };
-        }
+
+            currentFrames = runRightFrames;
+            isKeyPressed = true;
+
+        } else isKeyPressed = false;
 
 
         if (IsKeyPressed(KEY_SPACE)) {
@@ -144,11 +188,10 @@ void ExamGame(Window &window) {
         BeginDrawing();
         ClearBackground(RAYWHITE);
 
-        healthBar.x = player.x - 25;
-        healthBar.y = player.y -20;
+        healthBar.x = player.x - 45;
+        healthBar.y = player.y - 65;
 
-        DrawRectangleRec(player, BLUE);
-        DrawRectangleRec(healthBar, RED);
+
 
         for (const auto &bullet : bullets) {
             DrawRectangleRec(bullet.rect, RED);
@@ -204,15 +247,32 @@ void ExamGame(Window &window) {
 
             if (playerHealth <= 0){
                 window.setScreen(Window::LOSS);
+                UnloadTexture(playerSprite);
                 break;
             }
 
         if (counter >= 100){
             window.setScreen(Window::VICTORY);
+            UnloadTexture(playerSprite);
             break;
         }
 
+        frameTimer += GetFrameTime();   //frame changer
+        if (frameTimer >= frameRate) {
+            frameTimer = 0.0f;
+            if(isKeyPressed) {
+                currentFrame++;
+
+                if (currentFrame >= 2) {
+                    currentFrame = 0;
+                }
+            } else currentFrame = 0;
+        }
+
         DrawText(TextFormat("100/ %i", counter), screenWidth - 125, 0, 30, BLACK);
+        DrawTextureRec(playerSprite, currentFrames[currentFrame], (Vector2) {player.x - 45, player.y - 50}, WHITE);
+        DrawRectangleRec(healthBar, RED);
+
 
 
         EndDrawing();
