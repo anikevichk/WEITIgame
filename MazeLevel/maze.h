@@ -16,7 +16,7 @@ struct Cell {
 
 void Maze(Window &window);
 void GenerateMaze(std::vector<std::vector<Cell>>& maze, int width, int height);
-void DrawMaze(const std::vector<std::vector<Cell>>& maze, int width, int height);
+void DrawMaze(const std::vector<std::vector<Cell>>& maze, int width, int height, Texture2D wallH, Texture2D wallV);
 bool CheckCollisionWithWalls(Rectangle player, const std::vector<std::vector<Cell>>& maze, int width, int height);
 
 #endif // MAZE_H
