@@ -2,51 +2,55 @@
 #include "scenes.h"
 #include  "../Tools/Window.h"
 
-int buttonX = 100;
 int buttonY = 200;
 
-int buttonTetrisX = 250;
+int buttonRunnerX = 100;
+int buttonExamX = 250;
 int buttonMazeX = 400;
-
-//typedef enum GameScreen { Menu, LEVEL1 } GameScreen;
+int buttonCatchX = 550;
 
 const char *header = "CHOOSE LEVEL:";
-const char *button1Text = "1";
-const char *buttonTetrisText = "2";
-const char *buttonMazetxt = "3";
-Rectangle button1 = {buttonX, buttonY, 100, 50 };
-Rectangle buttonTetris = {buttonTetrisX, buttonY, 100, 50 };
-Rectangle buttonMaze = {buttonMazeX, buttonY, 100, 50};
 
-Color button1Color = LIGHTGRAY;
-Color buttonTetrisColor = LIGHTGRAY;
+const char *buttonRunnertxt = "1";
+const char *buttonExamtxt = "2";
+const char *buttonMazetxt = "3";
+const char *buttonCatchtxt = "4";
+
+Rectangle buttonRunner = {buttonRunnerX, buttonY, 100, 50 };
+Rectangle buttonExam = {buttonExamX, buttonY, 100, 50 };
+Rectangle buttonMaze = {buttonMazeX, buttonY, 100, 50};
+Rectangle buttonCatch = {buttonCatchX, buttonY, 100, 50};
+
+Color buttonRunnerColor = LIGHTGRAY;
+Color buttonExamColor = LIGHTGRAY;
 Color buttonMazeColor = LIGHTGRAY;
+Color buttonCatchColor = LIGHTGRAY;
 
 
 void menu(Window& window) {
-    if (CheckCollisionPointRec(GetMousePosition(), button1))
+    if (CheckCollisionPointRec(GetMousePosition(), buttonRunner))
     {
-        button1Color = MOUSE_LEFT_BUTTON ? RED : DARKGRAY;
+        buttonRunnerColor = MOUSE_LEFT_BUTTON ? RED : DARKGRAY;
         if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
             window.setScreen(Window::LEVEL1);
         }
     }
     else
     {
-        button1Color = LIGHTGRAY;
+        buttonRunnerColor = LIGHTGRAY;
     }
 
 
-    if (CheckCollisionPointRec(GetMousePosition(), buttonTetris))
+    if (CheckCollisionPointRec(GetMousePosition(), buttonExam))
     {
-        buttonTetrisColor = MOUSE_LEFT_BUTTON ? RED : DARKGRAY;
+        buttonExamColor = MOUSE_LEFT_BUTTON ? RED : DARKGRAY;
         if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
             window.setScreen(Window::EXAM);
         }
     }
     else
     {
-        buttonTetrisColor = LIGHTGRAY;
+        buttonExamColor = LIGHTGRAY;
     }
 
     if (CheckCollisionPointRec(GetMousePosition(), buttonMaze))
@@ -61,18 +65,32 @@ void menu(Window& window) {
         buttonMazeColor = LIGHTGRAY;
     }
 
+    if (CheckCollisionPointRec(GetMousePosition(), buttonCatch))
+    {
+        buttonCatchColor = MOUSE_LEFT_BUTTON ? RED : DARKGRAY;
+        if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+            window.setScreen(Window::CATCH);
+        }
+    }
+    else
+    {
+        buttonCatchColor = LIGHTGRAY;
+    }
     BeginDrawing();
     ClearBackground(RAYWHITE);
+
     DrawText(header,600, 20, 40, BLACK);
 
-    DrawRectangleRec(button1, button1Color);
-    DrawText(button1Text, buttonX + 45, buttonY + 12, 30, WHITE);
+    DrawRectangleRec(buttonRunner, buttonRunnerColor);
+    DrawText(buttonRunnertxt, buttonRunnerX + 45, buttonY + 12, 30, WHITE);
 
-    DrawRectangleRec(buttonTetris, buttonTetrisColor);
-    DrawText(buttonTetrisText, buttonTetrisX + 45, buttonY + 12, 30, WHITE);
+    DrawRectangleRec(buttonExam, buttonExamColor);
+    DrawText(buttonExamtxt, buttonExamX + 45, buttonY + 12, 30, WHITE);
 
     DrawRectangleRec(buttonMaze, buttonMazeColor);
     DrawText(buttonMazetxt, buttonMazeX + 45, buttonY + 12, 30, WHITE);
 
+    DrawRectangleRec(buttonCatch, buttonCatchColor);
+    DrawText(buttonCatchtxt, buttonCatchX + 45, buttonY + 12, 30, WHITE);
     EndDrawing();
 }

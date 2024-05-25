@@ -20,9 +20,12 @@ int main(){
             ExamGame(currentWindow);
         }
 
-
         if(currentWindow.getScreen()== Window::MAZE){
             Maze(currentWindow);
+        }
+
+        if(currentWindow.getScreen()== Window::CATCH){
+            Catch(currentWindow);
         }
 
         if(currentWindow.getScreen()== Window::LOSS){

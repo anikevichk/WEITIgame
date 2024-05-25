@@ -13,5 +13,6 @@ void menu(Window& window);
 void level1(Window& window);
 void ExamGame(Window &window);
 void Maze(Window &window);
+void Catch(Window &window);
 
 #endif //UNTITLED_SCREENS_H

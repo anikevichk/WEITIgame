@@ -17,7 +17,25 @@ add_executable(main main.cpp
         levels/MazeLevel/maze.h
         levels/ExamGameLevel/enemy.cpp
         levels/ExamGameLevel/enemy.h
+        levels/CatchLevel/catch.cpp
 )
 
 find_package(raylib CONFIG REQUIRED)
 target_link_libraries(main PRIVATE raylib)
+
+#include(FetchContent)
+#FetchContent_Declare(
+#        googletest
+#        GIT_REPOSITORY      https://github.com/google/googletest.git
+#        GIT_TAG main
+#)
+#FetchContent_MakeAvailable(googletest)
+#
+#set(SOURCES
+#        levels/MazeLevel/maze.h
+#        levels/MazeLevel/maze.cpp
+#        tests/test_maze.cpp
+#)
+#
+#add_executable(maze ${SOURCES})
+#target_link_libraries(maze PUBLIC gtest_main)
