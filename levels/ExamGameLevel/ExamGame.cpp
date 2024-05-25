@@ -25,7 +25,9 @@ void ExamGame(Window &window) {
     struct Bullet {
         Rectangle rect;
         Vector2 speed;
+        float rotate;
         bool hit = false;
+        int texture = GetRandomValue(0,9);
     };
 
 
@@ -59,6 +61,10 @@ void ExamGame(Window &window) {
 
     Texture2D playerSprite = LoadTexture("../src/sprite.png");
     Texture2D hotdogTexture = LoadTexture("../src/hotdog.png");
+    Texture2D BulletsTexture = LoadTexture("../src/levelExam/Bullets.png");
+    Texture2D EnemiesTexture = LoadTexture("../src/levelExam/enemies.png");
+    Texture2D BackgroundTexture = LoadTexture("../src/levelExam/Background.png");
+
 
 
 //    std::vector<std::vector<Cell>> grid(screenWidth / gridSize, std::vector<Cell>(screenHeight / gridSize));
@@ -89,6 +95,26 @@ void ExamGame(Window &window) {
     };
 
     Rectangle* currentFrames = runRightFrames;
+
+    Rectangle EnemyTextures[] = {
+            {0,0,46, 50},
+            {47,0,40, 50},
+            {87,0,47, 50},
+            {134, 0, 40,50}
+    };
+
+    Rectangle BulletsTextures[] = {
+            {0,0,10, 3},
+            {10,0,10, 3},
+            {20,0,10, 3},
+            {30,0,10, 3},
+            {40,0,10, 3},
+            {50,0,10, 3},
+            {60,0,10, 3},
+            {70,0,10, 3},
+            {80,0,10, 3},
+            {90,0,10, 3},
+    };
 
     Rectangle player = { 800, 450, 50, 95 };
     Rectangle healthBar = { player.x-15, player.y - 20, 70, 5 };
@@ -168,7 +194,13 @@ void ExamGame(Window &window) {
 
 
         if (IsKeyPressed(KEY_SPACE)) {
-            Bullet newBullet = { { player.x + player.width / 2 + 12, player.y + player.height / 2+20, 5, 5 }, {direction.x * 5.0f, direction.y * 5.0f } };
+            float rotate;
+            if( direction.x == 1) rotate = 180.0f;
+            if( direction.x == -1) rotate = 0.0f;
+            if( direction.y == 1) rotate = 270.0f;
+            if( direction.y == -1) rotate = 90.0f;
+
+            Bullet newBullet = { { player.x + player.width / 2 + 12, player.y + player.height / 2+20, 5, 5 }, {direction.x * 5.0f, direction.y * 5.0f }, rotate };
             bullets.push_back(newBullet);
         }
 
@@ -192,23 +224,26 @@ void ExamGame(Window &window) {
             enemySpawnerTimer = 0.0f;
             for (int i = 0; i < 30; i += 2) {
                 enemies.emplace_back(getRandom(-100, screenWidth + 100, 0, screenWidth),
-                                     getRandom(-100, screenHeight + 100, 0, screenHeight), 25, 30, 5, 25);
+                                     getRandom(-100, screenHeight + 100, 0, screenHeight), 30, 50, 5, 25);
                 enemies.emplace_back(GetRandomValue(0, screenWidth),
-                                     getRandom(-100, screenHeight + 100, 0, screenHeight), 25, 30, 5, 25);
+                                     getRandom(-100, screenHeight + 100, 0, screenHeight), 30, 50, 5, 25);
 
             }
         }
 
         BeginDrawing();
         ClearBackground(RAYWHITE);
+        DrawTexture(BackgroundTexture, 0, 0, WHITE);
 
-        healthBar.x = player.x - 45;
-        healthBar.y = player.y - 65;
+
+        healthBar.x = player.x - 12;
+        healthBar.y = player.y - 30;
 
 
 
         for (const auto &bullet : bullets) {
-            DrawRectangleRec(bullet.rect, RED);
+//            DrawRectangleRec(bullet.rect, RED);
+            DrawTexturePro(BulletsTexture,BulletsTextures[bullet.texture],{bullet.rect.x, bullet.rect.y, 20,6},Vector2 {0,0}, bullet.rotate, WHITE);
         }
 
         damageTimer += GetFrameTime();
@@ -256,18 +291,25 @@ void ExamGame(Window &window) {
 
             enemy.moveToPlayer(player.x + player.width/2, player.y + player.height/2);
 
-            DrawRectangleRec(enemy, RED);
+            DrawTextureRec(EnemiesTexture, EnemyTextures[enemy.GetTexture()], (Vector2) {enemy.x, enemy.y }, WHITE);
+
         }
 
             if (playerHealth <= 0){
                 window.setScreen(Window::LOSS);
                 UnloadTexture(playerSprite);
+                UnloadTexture(EnemiesTexture);
+                UnloadTexture(BulletsTexture);
+                UnloadTexture(BackgroundTexture);
                 break;
             }
 
         if (counter >= 100){
             window.setScreen(Window::VICTORY);
             UnloadTexture(playerSprite);
+            UnloadTexture(EnemiesTexture);
+            UnloadTexture(BulletsTexture);
+            UnloadTexture(BackgroundTexture);
             break;
         }
 

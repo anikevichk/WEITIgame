@@ -5,7 +5,8 @@ Enemy::Enemy(int x, int y, int width, int height, int h, int d) : health(h), dam
     this->x = x;
     this->y = y;
     this->width = width;
-    this->height = height;}
+    this->height = height;
+    this->texture = GetRandomValue(0,3);}
 
 int Enemy::GetHealth() {
     return health;
@@ -13,6 +14,10 @@ int Enemy::GetHealth() {
 
 int Enemy::GetDamage() {
     return damage;
+}
+
+int Enemy::GetTexture() {
+    return texture;
 }
 
 void Enemy::ReceiveDamage(int Damage) {
