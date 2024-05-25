@@ -127,10 +127,10 @@ void Maze(Window &window) {
 
 // Function to load textures
 void LoadTextures(Texture2D &hotdog, Texture2D &wallH, Texture2D &wallV, Texture2D &sprite, Texture2D &background) {
-    hotdog = LoadTexture("../src/levelMaze/hotdog.png");
+    hotdog = LoadTexture("../src/hotdog.png");
     wallH = LoadTexture("../src/levelMaze/wallH.png");
     wallV = LoadTexture("../src/levelMaze/wallV.png");
-    sprite = LoadTexture("../src/levelMaze/sprite.png");
+    sprite = LoadTexture("../src/sprite.png");
     background = LoadTexture("../src/levelMaze/background.png");
 }
 

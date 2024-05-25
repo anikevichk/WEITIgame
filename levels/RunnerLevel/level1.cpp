@@ -38,7 +38,7 @@ void level1(Window &window) {
     float frameTimer = 0.0f;
 
 
-    Texture2D playerSprite = LoadTexture("../src/levelRunner/playerSprite.png");    //textures
+    Texture2D playerSprite = LoadTexture("../src/sprite.png");    //textures
     Texture2D obstacleTexture = LoadTexture("../src/levelRunner/obstacle.png");
     Texture2D backgroundTexture = LoadTexture("../src/levelRunner/background.png");
     Texture2D floorTexture = LoadTexture("../src/levelRunner/floor.png");

@@ -21,7 +21,6 @@ void DrawMaze(const std::vector<std::vector<Cell>>& maze, int width, int height,
 bool CheckCollisionWithWalls(Rectangle player, const std::vector<std::vector<Cell>>& maze, int width, int height);
 void LoadTextures(Texture2D &hotdog, Texture2D &wallH, Texture2D &wallV, Texture2D &sprite, Texture2D &background);
 void UnloadTextures(Texture2D hotdog, Texture2D wallH, Texture2D wallV, Texture2D background);
-void InitializePlayer(Rectangle &player);
 void SpawnHotdogs(std::vector<Rectangle> &hotdogs, int mazeWidth, int mazeHeight);
 void UpdatePlayerPosition(Rectangle &player, Vector2 &direction, float speed, bool &isKeyPressed, Rectangle* &currentFrames, Rectangle runForwardFrames[], Rectangle runBackFrames[], Rectangle runLeftFrames[], Rectangle runRightFrames[], const std::vector<std::vector<Cell>> &maze, int mazeWidth, int mazeHeight);
 void AnimatePlayer(Rectangle* &currentFrames, int &currentFrame, float &frameTimer, float frameRate, bool isKeyPressed);

@@ -57,8 +57,8 @@ void ExamGame(Window &window) {
     float hotDogTimer = 10.0f;
     float hotDogRate = 20.0f;
 
-    Texture2D playerSprite = LoadTexture("../src/levelExam/playerSprite.png");
-    Texture2D hotdogTexture = LoadTexture("../src/levelExam/hotdog.png");
+    Texture2D playerSprite = LoadTexture("../src/sprite.png");
+    Texture2D hotdogTexture = LoadTexture("../src/hotdog.png");
 
 
 //    std::vector<std::vector<Cell>> grid(screenWidth / gridSize, std::vector<Cell>(screenHeight / gridSize));
