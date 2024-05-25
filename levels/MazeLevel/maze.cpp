@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <stack>
 #include <ctime>
+#include <set>
 
 
 void Maze(Window &window) {
@@ -145,12 +146,18 @@ void UnloadTextures(Texture2D hotdog, Texture2D wallH, Texture2D wallV, Texture2
 // Function to spawn hotdogs at random positions
 void SpawnHotdogs(std::vector<Rectangle> &hotdogs, int mazeWidth, int mazeHeight) {
     srand(time(0));
-    for (int i = 0; i < 5; i++) {
+    std::set<std::pair<int, int>> occupiedCells; // Set for storing occupied cells
+    while (hotdogs.size() < 5) {
         int hotdogX = rand() % mazeWidth;
         int hotdogY = rand() % mazeHeight;
-        Rectangle hotdogRect = {static_cast<float>(hotdogX * CELL_SIZE + CELL_SIZE / 4),
-                                static_cast<float>(hotdogY * CELL_SIZE + CELL_SIZE / 4), 75, 75};
-        hotdogs.push_back(hotdogRect);
+
+        // Checking that the cell is not occupied yet
+        if (occupiedCells.find({hotdogX, hotdogY}) == occupiedCells.end()) {
+            Rectangle hotdogRect = {static_cast<float>(hotdogX * CELL_SIZE + CELL_SIZE / 4),
+                                    static_cast<float>(hotdogY * CELL_SIZE + CELL_SIZE / 4), 75, 75};
+            hotdogs.push_back(hotdogRect);
+            occupiedCells.insert({hotdogX, hotdogY}); // Adding cell coordinates to the set
+        }
     }
 }
 
