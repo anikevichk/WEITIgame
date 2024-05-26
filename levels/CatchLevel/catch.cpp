@@ -1,4 +1,5 @@
 #include "raylib.h"
+#include <random>
 #include "../../Scenes/scenes.h"
 
 void Catch(Window &window) {
@@ -21,9 +22,28 @@ void Catch(Window &window) {
             {73,  104, 66, 95},
             {146, 104, 66, 95}
     };
+
+    Rectangle good[] = {
+            {0,   0, 44, 50},
+            {44,   0, 45, 50},
+            {89,   0, 46, 50},
+            {132,   0, 44, 50},
+            {177,   0, 49, 50},
+    };
+
+    Rectangle bad[] = {
+            {0,   0, 49, 50},
+            {49,   0, 50, 50},
+            {99,   0, 49, 50},
+            {148,   0, 50, 50},
+    };
+
     Rectangle *currentFrames = runRightFrames;
 
+    Texture2D background = LoadTexture("../src/levelCatch/background.png");
     Texture2D playerTexture = LoadTexture("../src/sprite.png");
+    Texture2D badTexture = LoadTexture("../src/levelCatch/bad.png");
+    Texture2D goodTexture = LoadTexture("../src/levelCatch/good.png");
 
     Rectangle player = { static_cast<float>(screenWidth / 2), 807, 70, 90 };
     Rectangle goodFruit = { static_cast<float>(GetRandomValue(0, screenWidth - 40)), 0, 40, 40 };
@@ -36,13 +56,14 @@ void Catch(Window &window) {
     float veryGoodFruitTimer = 0.0f;
     float veryGoodFruitInterval = 15.0f;
 
+    int randomGoodIndex = rand() % 4;
+    int randomBadIndex = rand() % 3;
+
     SetTargetFPS(60);
 
     while (!WindowShouldClose()) {
         float deltaTime = GetFrameTime();
         veryGoodFruitTimer += deltaTime;
-
-        Rectangle previousPosition = player;
 
         // Check player input for movement
         if (IsKeyDown(KEY_A)) {
@@ -94,6 +115,7 @@ void Catch(Window &window) {
             fruitsCaught++;
             goodFruit.x = static_cast<float>(GetRandomValue(0, screenWidth - 40));
             goodFruit.y = 0;
+            randomGoodIndex = rand() % 4;
         }
 
         if (CheckCollisionRecs(player, veryGoodFruit)) {
@@ -107,6 +129,7 @@ void Catch(Window &window) {
             score--;
             badFruit.x = static_cast<float>(GetRandomValue(0, screenWidth - 40));
             badFruit.y = 0;
+            randomBadIndex = rand() % 3;
         }
 
         if (veryBadFruit.y > -40 && CheckCollisionRecs(player, veryBadFruit)) {
@@ -157,12 +180,14 @@ void Catch(Window &window) {
 
         ClearBackground(RAYWHITE);
 
+        DrawTexture(background, 0, 0, WHITE);
+//
         // Draw the player and fruits
         DrawTextureRec(playerTexture, currentFrames[currentFrame], (Vector2){ player.x, player.y }, WHITE);
-        DrawRectangleRec(goodFruit, GREEN);
-        DrawRectangleRec(badFruit, RED);
-        DrawRectangleRec(veryGoodFruit, YELLOW);
-        DrawRectangleRec(veryBadFruit, BLACK);
+        DrawTextureRec(goodTexture, good[randomGoodIndex], (Vector2){ goodFruit.x, goodFruit.y }, WHITE);
+        DrawTextureRec(badTexture, bad[randomBadIndex], (Vector2){ badFruit.x, badFruit.y }, WHITE);
+        DrawTextureRec(goodTexture, good[4], (Vector2){ veryGoodFruit.x, veryGoodFruit.y }, WHITE);
+        DrawTextureRec(badTexture, bad[3], (Vector2){ veryBadFruit.x + 20, veryBadFruit.y }, WHITE);
 
         // Draw text with the score
         DrawText(TextFormat("Score: %d", score), 10, 10, 20, BLACK);
@@ -188,5 +213,9 @@ void Catch(Window &window) {
 
         EndDrawing();
     }
+    UnloadTexture(background);
+    UnloadTexture(playerTexture);
+    UnloadTexture(goodTexture);
+    UnloadTexture(badTexture);
 }
 
