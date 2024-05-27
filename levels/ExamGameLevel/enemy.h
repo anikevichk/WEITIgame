@@ -7,7 +7,6 @@ class Enemy : public Rectangle{
     int health;
     int damage;
     int texture;
-//    bbccaabc
 public:
     Enemy(int x, int y, int width, int height, int h, int d);
     int GetHealth();

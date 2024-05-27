@@ -3,7 +3,9 @@
 #include "Tools/Window.h"
 
 int main(){
+    Image Icon = LoadImage("../src/hotdog.png");
     InitWindow(1600, 900, "EscapeFromWEITI");
+    SetWindowIcon(Icon);
     SetTargetFPS(60);
     Window currentWindow;
     currentWindow.setScreen(Window::Menu);
@@ -36,5 +38,6 @@ int main(){
             lossWinScreen(currentWindow, "VICTORY!");
         }
     }
+    UnloadImage(Icon);
 
 }
