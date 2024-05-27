@@ -43,6 +43,7 @@ void level1(Window &window) {
     Texture2D backgroundTexture = LoadTexture("../src/levelRunner/background.png");
     Texture2D floorTexture = LoadTexture("../src/levelRunner/floor.png");
     Texture2D serverTexture = LoadTexture("../src/levelRunner/server.png");
+    Sound RunnerSound = LoadSound("../src/sounds/Runner.mp3");
 
     Rectangle frames[] = {                              //frames for player animation
             {0,  0, 66, 95},
@@ -76,6 +77,11 @@ void level1(Window &window) {
 
     while (!WindowShouldClose()) {
 
+        if (!IsSoundPlaying(RunnerSound))
+        {
+            PlaySound(RunnerSound);
+        }
+
         if (loss) {                                     //check if loss flag was setted
             window.setScreen(Window::LOSS);
             break;
@@ -89,6 +95,8 @@ void level1(Window &window) {
             if (CheckCollisionRecs(player, obstacle)) {     //check collisions betwet player and all obstacles
 
                 obstacleSpeed = 0.0f;
+                StopSound(RunnerSound);
+                UnloadSound(RunnerSound);
                 UnloadTexture(playerSprite);
                 UnloadTexture(obstacleTexture);
                 UnloadTexture(backgroundTexture);
@@ -109,6 +117,8 @@ void level1(Window &window) {
         if (counter >= 50) {                            //check if reguired amount of point was reached
             window.setScreen(Window::VICTORY);
             obstacleSpeed = 0.0f;
+            StopSound(RunnerSound);
+            UnloadSound(RunnerSound);
             UnloadTexture(playerSprite);
             UnloadTexture(obstacleTexture);
             UnloadTexture(backgroundTexture);

@@ -26,13 +26,16 @@ Color buttonExamColor = LIGHTGRAY;
 Color buttonMazeColor = LIGHTGRAY;
 Color buttonCatchColor = LIGHTGRAY;
 
+Sound MenuSound = LoadSound("../src/sounds/menu.mp3");
 
 void menu(Window& window) {
+
     if (CheckCollisionPointRec(GetMousePosition(), buttonRunner))
     {
         buttonRunnerColor = MOUSE_LEFT_BUTTON ? RED : DARKGRAY;
         if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
             window.setScreen(Window::LEVEL1);
+            UnloadSound(MenuSound);
         }
     }
     else
@@ -46,6 +49,7 @@ void menu(Window& window) {
         buttonExamColor = MOUSE_LEFT_BUTTON ? RED : DARKGRAY;
         if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
             window.setScreen(Window::EXAM);
+            UnloadSound(MenuSound);
         }
     }
     else
@@ -58,6 +62,7 @@ void menu(Window& window) {
         buttonMazeColor = MOUSE_LEFT_BUTTON ? RED : DARKGRAY;
         if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
             window.setScreen(Window::MAZE);
+            UnloadSound(MenuSound);
         }
     }
     else
@@ -70,12 +75,14 @@ void menu(Window& window) {
         buttonCatchColor = MOUSE_LEFT_BUTTON ? RED : DARKGRAY;
         if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
             window.setScreen(Window::CATCH);
+            UnloadSound(MenuSound);
         }
     }
     else
     {
         buttonCatchColor = LIGHTGRAY;
     }
+    PlaySound(MenuSound);
     BeginDrawing();
     ClearBackground(RAYWHITE);
 

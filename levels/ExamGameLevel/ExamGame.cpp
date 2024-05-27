@@ -64,6 +64,7 @@ void ExamGame(Window &window) {
     Texture2D BulletsTexture = LoadTexture("../src/levelExam/Bullets.png");
     Texture2D EnemiesTexture = LoadTexture("../src/levelExam/enemies.png");
     Texture2D BackgroundTexture = LoadTexture("../src/levelExam/Background.png");
+    Sound ExamSound = LoadSound("../src/sounds/Exam.mp3");
 
 
 
@@ -134,6 +135,11 @@ void ExamGame(Window &window) {
         healthBar.x = player.x - 12;
         healthBar.y = player.y - 30;
 
+        if (!IsSoundPlaying(ExamSound))
+        {
+            PlaySound(ExamSound);
+        }
+
         if (IsKeyDown(KEY_W)) {
             if(player.y > 0) {
                 player.y -= speed;
@@ -192,6 +198,8 @@ void ExamGame(Window &window) {
 
         if (playerHealth <= 0){
             window.setScreen(Window::LOSS);
+            StopSound(ExamSound);
+            UnloadSound(ExamSound);
             UnloadTexture(playerSprite);
             UnloadTexture(EnemiesTexture);
             UnloadTexture(BulletsTexture);
@@ -201,6 +209,8 @@ void ExamGame(Window &window) {
 
         if (counter >= 100){
             window.setScreen(Window::VICTORY);
+            StopSound(ExamSound);
+            UnloadSound(ExamSound);
             UnloadTexture(playerSprite);
             UnloadTexture(EnemiesTexture);
             UnloadTexture(BulletsTexture);

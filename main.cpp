@@ -5,21 +5,31 @@
 int main(){
     Image Icon = LoadImage("../src/hotdog.png");
     InitWindow(1600, 900, "EscapeFromWEITI");
+    InitAudioDevice();
+    Sound MenuSound = LoadSound("../src/sounds/menu.mp3");
     SetWindowIcon(Icon);
     SetTargetFPS(60);
     Window currentWindow;
     currentWindow.setScreen(Window::Menu);
-
+//    PlaySound(MenuSound);
     while (!WindowShouldClose()){
+
         if(currentWindow.getScreen() == Window::Menu){
-        menu(currentWindow);
+            if (!IsSoundPlaying(MenuSound))
+            {
+                PlaySound(MenuSound);
+            }
+            menu(currentWindow);
         }
         if(currentWindow.getScreen()== Window::LEVEL1){
+            StopSound(MenuSound);
             level1(currentWindow);
         }
 
         if(currentWindow.getScreen()== Window::EXAM){
+            StopSound(MenuSound);
             ExamGame(currentWindow);
+
         }
 
         if(currentWindow.getScreen()== Window::MAZE){
