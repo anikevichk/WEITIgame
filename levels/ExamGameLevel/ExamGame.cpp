@@ -127,26 +127,12 @@ void ExamGame(Window &window) {
 
     while (!WindowShouldClose()) {
 
-//        for (auto &enemy : enemies) {
-//
-//                int prevX = static_cast<int>(enemy.x) / gridSize;
-//                int prevY = static_cast<int>(enemy.y) / gridSize;
-//
-//                enemy.moveToPlayer(player.x, player.y);
-//
-//            if (enemy.x >= 0 && enemy.x <= screenWidth && enemy.y >= 0 && enemy.y <= screenHeight) {
-//                int newX = static_cast<int>(enemy.x) / gridSize;
-//                int newY = static_cast<int>(enemy.y) / gridSize;
-//
-//                if (prevX != newX || prevY != newY) {
-//
-//                    auto &prevCell = grid[prevX][prevY];
-//                    prevCell.enemies.erase(std::remove(prevCell.enemies.begin(), prevCell.enemies.end(), &enemy),
-//                                           prevCell.enemies.end());
-//                    grid[newX][newY].enemies.push_back(&enemy);
-//                }
-//            }
-//        }
+        frameTimer += GetFrameTime();   //update vairabels needed to next frame;
+        hotDogTimer += GetFrameTime();
+        enemySpawnerTimer += GetFrameTime();
+        damageTimer += GetFrameTime();
+        healthBar.x = player.x - 12;
+        healthBar.y = player.y - 30;
 
         if (IsKeyDown(KEY_W)) {
             if(player.y > 0) {
@@ -204,22 +190,48 @@ void ExamGame(Window &window) {
             bullets.push_back(newBullet);
         }
 
-        for (auto &bullet : bullets) {
-            bullet.rect.x += bullet.speed.x;
-            bullet.rect.y += bullet.speed.y;
+        if (playerHealth <= 0){
+            window.setScreen(Window::LOSS);
+            UnloadTexture(playerSprite);
+            UnloadTexture(EnemiesTexture);
+            UnloadTexture(BulletsTexture);
+            UnloadTexture(BackgroundTexture);
+            break;
         }
 
-        bullets.erase(std::remove_if(bullets.begin(), bullets.end(), [screenWidth, screenHeight](Bullet& b) {
-            return b.rect.y < 0 ||
-                    b.rect.y > screenHeight ||
-                    b.rect.x < 0 ||
-                    b.rect.x > screenWidth ||
-                    b.hit; }), bullets.end());
+        if (counter >= 100){
+            window.setScreen(Window::VICTORY);
+            UnloadTexture(playerSprite);
+            UnloadTexture(EnemiesTexture);
+            UnloadTexture(BulletsTexture);
+            UnloadTexture(BackgroundTexture);
+            break;
+        }
 
-        enemies.erase(std::remove_if(enemies.begin(), enemies.end(), [](Enemy& enemy) {
-            return enemy.GetHealth() <= 0;}), enemies.end());
 
-        enemySpawnerTimer += GetFrameTime();
+        if (frameTimer >= frameRate) {
+            frameTimer = 0.0f;
+            if(isKeyPressed) {
+                currentFrame++;
+
+                if (currentFrame >= FrameSize) {
+                    currentFrame = 0;
+                }
+            } else currentFrame = 0;
+        }
+
+        if (hotDogTimer >= hotDogRate){
+            hotDogTimer = 0.0f;
+            hotdog.x = GetRandomValue(0, screenWidth);
+            hotdog.y = GetRandomValue(0, screenHeight);
+        }
+
+        if(CheckCollisionRecs(hotdog, player)){
+            playerHealth += 25;
+            hotdog.x = -30;
+            hotdog.y = -30;
+        }
+
         if(enemySpawnerTimer >= enemySpawnRate) {
             enemySpawnerTimer = 0.0f;
             for (int i = 0; i < 30; i += 2) {
@@ -231,45 +243,32 @@ void ExamGame(Window &window) {
             }
         }
 
+        bullets.erase(std::remove_if(bullets.begin(), bullets.end(), [screenWidth, screenHeight](Bullet& b) {
+            return b.rect.y < 0 ||
+                   b.rect.y > screenHeight ||
+                   b.rect.x < 0 ||
+                   b.rect.x > screenWidth ||
+                   b.hit; }), bullets.end());
+
+        enemies.erase(std::remove_if(enemies.begin(), enemies.end(), [](Enemy& enemy) {
+            return enemy.GetHealth() <= 0;}), enemies.end());
+
+        for (auto &bullet : bullets) {
+            bullet.rect.x += bullet.speed.x;
+            bullet.rect.y += bullet.speed.y;
+        }
+
         BeginDrawing();
         ClearBackground(RAYWHITE);
         DrawTexture(BackgroundTexture, 0, 0, WHITE);
 
 
-        healthBar.x = player.x - 12;
-        healthBar.y = player.y - 30;
-
-
 
         for (const auto &bullet : bullets) {
-//            DrawRectangleRec(bullet.rect, RED);
             DrawTexturePro(BulletsTexture,BulletsTextures[bullet.texture],{bullet.rect.x, bullet.rect.y, 20,6},Vector2 {0,0}, bullet.rotate, WHITE);
         }
 
-        damageTimer += GetFrameTime();
 
-//        for (auto& bullet : bullets) {
-//            int x = bullet.rect.x / gridSize;
-//            int y = bullet.rect.y / gridSize;
-//
-//
-//            for (int dx = -1; dx <= 1; ++dx) {
-//                for (int dy = -1; dy <= 1; ++dy) {
-//                    int newX = x + dx;
-//                    int newY = y + dy;
-//
-//                    if (newX >= 0 && newX < grid.size() && newY >= 0 && newY < grid[0].size()) {
-//                        for (auto &enemy : grid[newX][newY].enemies) {
-//                            if (CheckCollisionRecs(*enemy, bullet.rect)) {
-//                                enemy->ReceiveDamage(bulletDamage);
-//                                bullet.hit = true;
-//                                ++counter;
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//        }
 
         for ( auto &enemy : enemies) {
             if (enemy.x >= 0 && enemy.x <= screenWidth && enemy.y >= 0 && enemy.y <= screenHeight) {
@@ -285,7 +284,6 @@ void ExamGame(Window &window) {
                 if (CheckCollisionRecs(enemy, player) && damageTimer >= damageRate) {
                     damageTimer = 0.0f;
                     playerHealth -= enemy.GetDamage();
-//                    healthBar.width -= 75 * enemy.GetDamage() / 100;
                 }
             }
 
@@ -295,53 +293,10 @@ void ExamGame(Window &window) {
 
         }
 
-            if (playerHealth <= 0){
-                window.setScreen(Window::LOSS);
-                UnloadTexture(playerSprite);
-                UnloadTexture(EnemiesTexture);
-                UnloadTexture(BulletsTexture);
-                UnloadTexture(BackgroundTexture);
-                break;
-            }
 
-        if (counter >= 100){
-            window.setScreen(Window::VICTORY);
-            UnloadTexture(playerSprite);
-            UnloadTexture(EnemiesTexture);
-            UnloadTexture(BulletsTexture);
-            UnloadTexture(BackgroundTexture);
-            break;
-        }
-
-        frameTimer += GetFrameTime();   //frame changer
-        if (frameTimer >= frameRate) {
-            frameTimer = 0.0f;
-            if(isKeyPressed) {
-                currentFrame++;
-
-                if (currentFrame >= FrameSize) {
-                    currentFrame = 0;
-                }
-            } else currentFrame = 0;
-        }
-
-        hotDogTimer += GetFrameTime();
-        if (hotDogTimer >= hotDogRate){
-            hotDogTimer = 0.0f;
-            hotdog.x = GetRandomValue(0, screenWidth);
-            hotdog.y = GetRandomValue(0, screenHeight);
-        }
-
-        if(CheckCollisionRecs(hotdog, player)){
-            playerHealth += 25;
-            hotdog.x = -30;
-            hotdog.y = -30;
-        }
-;
         healthBar.width =static_cast<int>( 70.0f * (static_cast<float>(playerHealth)/100.0f));
 
         DrawText(TextFormat("100/ %i", counter), screenWidth - 125, 0, 30, BLACK);
-//        DrawRectangleRec(player, BLUE);
         DrawTextureRec(playerSprite, currentFrames[currentFrame], (Vector2) {player.x - 15, player.y }, WHITE);
         DrawTexture(hotdogTexture, hotdog.x, hotdog.y, WHITE );
         DrawRectangleRec(healthBar, RED);
