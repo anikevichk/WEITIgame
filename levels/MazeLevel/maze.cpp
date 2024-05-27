@@ -21,6 +21,8 @@ void Maze(Window &window) {
     float frameTimer = 0.0f;
     bool isKeyPressed = false;
 
+    float scale = 0.8f;
+
     // Arrays containing frames for player animation
     Rectangle runRightFrames[] = {
             {0,   0, 66, 95},
@@ -49,7 +51,7 @@ void Maze(Window &window) {
     int mazeHeight = screenHeight / CELL_SIZE;
 
     // Player’s initial coordinates
-    Rectangle player = {15, 807, 70.0f, 90.0f};
+    Rectangle player = {15, 807, 70.0f * scale, 90.0f * scale};
 
     // Create a two-dimensional vector to represent the maze
     std::vector<std::vector<Cell>> maze(mazeWidth, std::vector<Cell>(mazeHeight));
@@ -89,15 +91,24 @@ void Maze(Window &window) {
         BeginDrawing();
         ClearBackground(RAYWHITE);
 
+
+
         // Update frame timer and animate player
         AnimatePlayer(currentFrames, currentFrame, frameTimer, frameRate, isKeyPressed);
 
         DrawTexture(background, 0, 0, WHITE);
 
+//        DrawRectangleRec(player, BLUE);
+
+        Rectangle sourceRec = currentFrames[currentFrame];
+        Rectangle destRec = {player.x, player.y, sourceRec.width * scale, sourceRec.height * scale};
+        Vector2 origin = {sourceRec.width * scale/600, sourceRec.height * scale/24 };
+        DrawTexturePro(sprite, sourceRec, destRec, origin, 0.0f, WHITE);
+
         // Draw player texture with offset
-        DrawTextureRec(sprite, currentFrames[currentFrame],
-                       (Vector2) {player.x + player.width / 2 - 66 / 2, player.y + player.height / 2 - 95 / 2},
-                       WHITE);
+//        DrawTextureRec(sprite, currentFrames[currentFrame],
+//                       (Vector2) {player.x + player.width / 2 - 66 / 2, player.y + player.height / 2 - 95 / 2},
+//                       WHITE);
 
         // Draw maze walls
         DrawMaze(maze, mazeWidth, mazeHeight, wallH, wallV);
