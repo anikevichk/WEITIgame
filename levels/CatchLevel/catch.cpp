@@ -45,6 +45,9 @@ void Catch(Window &window) {
     Texture2D badTexture = LoadTexture("../src/levelCatch/bad.png");
     Texture2D goodTexture = LoadTexture("../src/levelCatch/good.png");
 
+    Sound bonus = LoadSound("../src/sounds/bonus.mp3");
+    SetSoundVolume(bonus, 1);
+
     Rectangle player = { static_cast<float>(screenWidth / 2), 807, 70, 90 };
     Rectangle goodFruit = { static_cast<float>(GetRandomValue(0, screenWidth - 40)), 0, 40, 40 };
     Rectangle badFruit = { static_cast<float>(GetRandomValue(0, screenWidth - 40)), 0, 40, 40 };
@@ -56,8 +59,8 @@ void Catch(Window &window) {
     float veryGoodFruitTimer = 0.0f;
     float veryGoodFruitInterval = 15.0f;
 
-    int randomGoodIndex = rand() % 4;
-    int randomBadIndex = rand() % 3;
+    int randomGoodIndex = GetRandomValue(0,3);
+    int randomBadIndex = GetRandomValue(0,2);
 
     SetTargetFPS(60);
 
@@ -111,11 +114,12 @@ void Catch(Window &window) {
 
 
         if (CheckCollisionRecs(player, goodFruit)) {
+            PlaySound(bonus);
             score++;
             fruitsCaught++;
             goodFruit.x = static_cast<float>(GetRandomValue(0, screenWidth - 40));
             goodFruit.y = 0;
-            randomGoodIndex = rand() % 4;
+            randomGoodIndex = GetRandomValue(0,3);
         }
 
         if (CheckCollisionRecs(player, veryGoodFruit)) {
@@ -123,13 +127,14 @@ void Catch(Window &window) {
             fruitsCaught++;
             veryGoodFruit.x = -40;
             veryGoodFruit.y = -40;
+            PlaySound(bonus);
         }
 
         if (CheckCollisionRecs(player, badFruit)) {
             score--;
             badFruit.x = static_cast<float>(GetRandomValue(0, screenWidth - 40));
             badFruit.y = 0;
-            randomBadIndex = rand() % 3;
+            randomBadIndex = GetRandomValue(0,2);
         }
 
         if (veryBadFruit.y > -40 && CheckCollisionRecs(player, veryBadFruit)) {
@@ -141,12 +146,14 @@ void Catch(Window &window) {
             score--;
             goodFruit.x = static_cast<float>(GetRandomValue(0, screenWidth - 40));
             goodFruit.y = 0;
+            randomGoodIndex = GetRandomValue(0,3);
         }
 
         // Check for bad fruits falling to the floor
         if (badFruit.y > screenHeight) {
             badFruit.x = static_cast<float>(GetRandomValue(0, screenWidth - 40));
             badFruit.y = 0;
+            randomBadIndex = GetRandomValue(0,2);
         }
 
         // Check for very good fruits falling to the floor
@@ -176,25 +183,27 @@ void Catch(Window &window) {
             veryBadFruit.y = 0;
         }
 
+
         BeginDrawing();
 
         ClearBackground(RAYWHITE);
 
         DrawTexture(background, 0, 0, WHITE);
+
 //
         // Draw the player and fruits
         DrawTextureRec(playerTexture, currentFrames[currentFrame], (Vector2){ player.x, player.y }, WHITE);
         DrawTextureRec(goodTexture, good[randomGoodIndex], (Vector2){ goodFruit.x, goodFruit.y }, WHITE);
         DrawTextureRec(badTexture, bad[randomBadIndex], (Vector2){ badFruit.x, badFruit.y }, WHITE);
         DrawTextureRec(goodTexture, good[4], (Vector2){ veryGoodFruit.x, veryGoodFruit.y }, WHITE);
-        DrawTextureRec(badTexture, bad[3], (Vector2){ veryBadFruit.x + 20, veryBadFruit.y }, WHITE);
+        DrawTextureRec(badTexture, bad[3], (Vector2){ veryBadFruit.x, veryBadFruit.y }, WHITE);
 
         // Draw text with the score
         DrawText(TextFormat("Score: %d", score), 10, 10, 20, BLACK);
 
         // Draw the fruit collection bar
         float barLength = static_cast<float>(screenWidth / 2);
-        float barWidth = (barLength * score        ) / maxFruits;
+        float barWidth = (barLength * score) / maxFruits;
 
         DrawRectangleLines(10, 50, static_cast<int>(barLength), 20, BLACK);
         DrawRectangle(10, 50, static_cast<int>(barWidth), 20, GREEN);
@@ -211,11 +220,14 @@ void Catch(Window &window) {
             break;
         }
 
+        UnloadSound(bonus);
+
         EndDrawing();
     }
     UnloadTexture(background);
     UnloadTexture(playerTexture);
     UnloadTexture(goodTexture);
     UnloadTexture(badTexture);
+
 }
 
