@@ -11,10 +11,10 @@ int getRandom() {           // method used to generate random coordinates of obs
 
 
     int random;
-    do {
-        random = dist(gen);
-
-    } while (abs(random - lastrandom) < 200);
+    random = dist(gen);
+    if(abs(random - lastrandom)<200){
+        random += 200;
+    }
 
     lastrandom = random;
     return random;
