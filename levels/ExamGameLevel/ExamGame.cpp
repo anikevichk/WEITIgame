@@ -4,6 +4,7 @@
 #include "enemy.h"
 #include <algorithm>
 #include <random>
+#include "../../Tools/DrawTools.h"
 
 
 int getRandom(int a, int b, int gapStart, int gapEnd) {           // method used to generate random coordinates of enemies
@@ -18,6 +19,8 @@ int getRandom(int a, int b, int gapStart, int gapEnd) {           // method used
     }
     return random;
 }
+
+bool DialogueWindow = true;
 
 
 void ExamGame(Window &window) {
@@ -127,6 +130,16 @@ void ExamGame(Window &window) {
 
 
     SetTargetFPS(60);
+    PlaySound(ExamSound);
+    while(DialogueWindow && !WindowShouldClose()){
+        BeginDrawing();
+        DrawTexture(BackgroundTexture, 0, 0, WHITE);
+        const char* text = "Test kskksksksk kkskksk ksksk"
+                           " \nTestm jdjdjdjdjjdjj jsjsjj"
+                           "\nskkskkskskskskskkkkkks";
+        DrawRoundedRectangle(600,450, 900, 400, 20,text,DialogueWindow, WHITE);
+        EndDrawing();
+    }
 
     while (!WindowShouldClose()) {
 
@@ -278,7 +291,6 @@ void ExamGame(Window &window) {
         DrawTexture(BackgroundTexture, 0, 0, WHITE);
 
 
-
         for (const auto &bullet : bullets) {
             DrawTexturePro(BulletsTexture,BulletsTextures[bullet.texture],{bullet.rect.x, bullet.rect.y, 20,6},Vector2 {0,0}, bullet.rotate, WHITE);
         }
@@ -317,11 +329,9 @@ void ExamGame(Window &window) {
         DrawRectangleRec(healthBar, RED);
 
 
-
-
-
         EndDrawing();
     }
+
 
 
 }

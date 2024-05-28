@@ -2,6 +2,7 @@
 #include <random>
 #include "raylib.h"
 #include "../../Scenes/scenes.h"
+#include "../../Tools/DrawTools.h"
 
 int lastrandom = 0;
 int getRandom() {           // method used to generate random coordinates of obstacles
@@ -26,7 +27,7 @@ void level1(Window &window) {
     int screenWidth = 1600;
     int screenHeight = 900;
     bool isJumping = false;
-    bool isClimbing = false;
+    bool DialogueWindow = true;
     bool Climb = false;
     float jumpSpeed = 12.0f;
     float gravity = 0.4;
@@ -75,6 +76,18 @@ void level1(Window &window) {
     }
 
     player.y = screenHeight - normalAlt;        //set y coordinate of player
+
+
+    PlaySound(RunnerSound);
+    while(DialogueWindow && !WindowShouldClose()){
+        BeginDrawing();
+        DrawTexture(backgroundTexture, 0, 0, WHITE);
+        const char* text = "Test kskksksksk kkskksk ksksk"
+                           " \nTestm jdjdjdjdjjdjj jsjsjj"
+                           "\nskkskkskskskskskkkkkks";
+        DrawRoundedRectangle(600,450, 900, 400, 20,text,DialogueWindow, WHITE);
+        EndDrawing();
+    }
 
     while (!WindowShouldClose()) {
 
