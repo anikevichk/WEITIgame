@@ -13,7 +13,7 @@ int main(){
     SetTargetFPS(60);
     Window currentWindow;
     currentWindow.setScreen(Window::Menu);
-//    PlaySound(MenuSound);
+    bool WinLossplayed = false;
     while (!WindowShouldClose()){
 
         if(currentWindow.getScreen() == Window::Menu){
@@ -21,6 +21,7 @@ int main(){
             {
                 PlaySound(MenuSound);
             }
+            WinLossplayed = false;
             menu(currentWindow);
         }
         if(currentWindow.getScreen()== Window::LEVEL1){
@@ -46,11 +47,22 @@ int main(){
 
         if(currentWindow.getScreen()== Window::LOSS){
             //PlaySound(gameOver);
+            if (!WinLossplayed)
+            {
+                WinLossplayed = true;
+                PlaySound(gameOver);
+            }
+            StopSound(MenuSound);
             lossWinScreen(currentWindow, "GAME OVER!:(");
         }
 
         if(currentWindow.getScreen()== Window::VICTORY){
            // PlaySound(win);
+            if (!WinLossplayed)
+            {
+                WinLossplayed = true;
+                PlaySound(win);
+            }
             lossWinScreen(currentWindow, "VICTORY!");
         }
     }
