@@ -65,6 +65,8 @@ void ExamGame(Window &window) {
     Texture2D EnemiesTexture = LoadTexture("../src/levelExam/enemies.png");
     Texture2D BackgroundTexture = LoadTexture("../src/levelExam/Background.png");
     Sound ExamSound = LoadSound("../src/sounds/Exam.mp3");
+    Sound ThrowEffect = LoadSound("../src/sounds/throwEffect.mp3");
+
 
 
 
@@ -186,6 +188,7 @@ void ExamGame(Window &window) {
 
 
         if (IsKeyPressed(KEY_SPACE)) {
+            PlaySound(ThrowEffect);
             float rotate;
             if( direction.x == 1) rotate = 180.0f;
             if( direction.x == -1) rotate = 0.0f;
@@ -200,6 +203,7 @@ void ExamGame(Window &window) {
             window.setScreen(Window::LOSS);
             StopSound(ExamSound);
             UnloadSound(ExamSound);
+            UnloadSound(ThrowEffect);
             UnloadTexture(playerSprite);
             UnloadTexture(EnemiesTexture);
             UnloadTexture(BulletsTexture);
@@ -211,6 +215,7 @@ void ExamGame(Window &window) {
             window.setScreen(Window::VICTORY);
             StopSound(ExamSound);
             UnloadSound(ExamSound);
+            UnloadSound(ThrowEffect);
             UnloadTexture(playerSprite);
             UnloadTexture(EnemiesTexture);
             UnloadTexture(BulletsTexture);

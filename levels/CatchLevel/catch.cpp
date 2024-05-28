@@ -45,8 +45,8 @@ void Catch(Window &window) {
     Texture2D badTexture = LoadTexture("../src/levelCatch/bad.png");
     Texture2D goodTexture = LoadTexture("../src/levelCatch/good.png");
 
-    Sound bonus = LoadSound("../src/sounds/bonus.mp3");
-    SetSoundVolume(bonus, 1);
+//    Sound bonus = LoadSound("../src/sounds/bonus.mp3");
+//    SetSoundVolume(bonus, 1);
 
     Rectangle player = { static_cast<float>(screenWidth / 2), 807, 70, 90 };
     Rectangle goodFruit = { static_cast<float>(GetRandomValue(0, screenWidth - 40)), 0, 40, 40 };
@@ -114,7 +114,7 @@ void Catch(Window &window) {
 
 
         if (CheckCollisionRecs(player, goodFruit)) {
-            PlaySound(bonus);
+//            PlaySound(bonus);
             score++;
             fruitsCaught++;
             goodFruit.x = static_cast<float>(GetRandomValue(0, screenWidth - 40));
@@ -127,7 +127,7 @@ void Catch(Window &window) {
             fruitsCaught++;
             veryGoodFruit.x = -40;
             veryGoodFruit.y = -40;
-            PlaySound(bonus);
+//            PlaySound(bonus);
         }
 
         if (CheckCollisionRecs(player, badFruit)) {
@@ -220,7 +220,7 @@ void Catch(Window &window) {
             break;
         }
 
-        UnloadSound(bonus);
+//        UnloadSound(bonus);
 
         EndDrawing();
     }

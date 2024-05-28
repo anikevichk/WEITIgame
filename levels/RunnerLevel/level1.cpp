@@ -44,6 +44,7 @@ void level1(Window &window) {
     Texture2D floorTexture = LoadTexture("../src/levelRunner/floor.png");
     Texture2D serverTexture = LoadTexture("../src/levelRunner/server.png");
     Sound RunnerSound = LoadSound("../src/sounds/Runner.mp3");
+    Sound JumpEffect = LoadSound("../src/sounds/jumpEffect.mp3");
 
     Rectangle frames[] = {                              //frames for player animation
             {0,  0, 66, 95},
@@ -97,6 +98,7 @@ void level1(Window &window) {
                 obstacleSpeed = 0.0f;
                 StopSound(RunnerSound);
                 UnloadSound(RunnerSound);
+                UnloadSound(JumpEffect);
                 UnloadTexture(playerSprite);
                 UnloadTexture(obstacleTexture);
                 UnloadTexture(backgroundTexture);
@@ -119,6 +121,7 @@ void level1(Window &window) {
             obstacleSpeed = 0.0f;
             StopSound(RunnerSound);
             UnloadSound(RunnerSound);
+            UnloadSound(JumpEffect);
             UnloadTexture(playerSprite);
             UnloadTexture(obstacleTexture);
             UnloadTexture(backgroundTexture);
@@ -128,6 +131,7 @@ void level1(Window &window) {
 
         if (IsKeyDown(KEY_SPACE) && !isJumping) {   //check space key, that used for jumping
             isJumping = true;
+            PlaySound(JumpEffect);
         }
 
 
@@ -153,7 +157,7 @@ void level1(Window &window) {
         }
 
         if (IsKeyDown(KEY_W) && !Climb) {   // check if W key pressed, change y, coordinate of player
-
+            PlaySound(JumpEffect);
             Climb = true;
 
 
@@ -167,6 +171,7 @@ void level1(Window &window) {
         }
 
         if (IsKeyReleased(KEY_S)) {    // check if W key realeasd, that used to go lower floor
+            PlaySound(JumpEffect);
             Climb = false;
         }
 

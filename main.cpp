@@ -37,6 +37,7 @@ int main(){
         }
 
         if(currentWindow.getScreen()== Window::CATCH){
+            StopSound(MenuSound);
             Catch(currentWindow);
         }
 
