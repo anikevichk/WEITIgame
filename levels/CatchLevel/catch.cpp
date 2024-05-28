@@ -45,8 +45,14 @@ void Catch(Window &window) {
     Texture2D badTexture = LoadTexture("../src/levelCatch/bad.png");
     Texture2D goodTexture = LoadTexture("../src/levelCatch/good.png");
 
-//    Sound bonus = LoadSound("../src/sounds/bonus.mp3");
-//    SetSoundVolume(bonus, 1);
+
+    Sound bonus = LoadSound("../src/sounds/bonus.mp3");
+    Sound lostBonus = LoadSound("../src/sounds/lostBonus.mp3");
+    Sound damage = LoadSound("../src/sounds/damage.mp3");
+    Sound mainTheme = LoadSound("../src/sounds/CatchMainTheme.mp3");
+    SetSoundVolume(damage, 0.4);
+    SetSoundVolume(lostBonus, 0.8);
+    SetSoundVolume(bonus, 0.8);
 
     Rectangle player = { static_cast<float>(screenWidth / 2), 807, 70, 90 };
     Rectangle goodFruit = { static_cast<float>(GetRandomValue(0, screenWidth - 40)), 0, 40, 40 };
@@ -63,8 +69,14 @@ void Catch(Window &window) {
     int randomBadIndex = GetRandomValue(0,2);
 
     SetTargetFPS(60);
+    PlaySound(mainTheme);
 
     while (!WindowShouldClose()) {
+
+        if (!IsSoundPlaying(mainTheme)) {
+            PlaySound(mainTheme);
+        }
+
         float deltaTime = GetFrameTime();
         veryGoodFruitTimer += deltaTime;
 
@@ -114,7 +126,7 @@ void Catch(Window &window) {
 
 
         if (CheckCollisionRecs(player, goodFruit)) {
-//            PlaySound(bonus);
+            PlaySound(bonus);
             score++;
             fruitsCaught++;
             goodFruit.x = static_cast<float>(GetRandomValue(0, screenWidth - 40));
@@ -123,14 +135,16 @@ void Catch(Window &window) {
         }
 
         if (CheckCollisionRecs(player, veryGoodFruit)) {
+            PlaySound(bonus);
             score += 3;
             fruitsCaught++;
             veryGoodFruit.x = -40;
             veryGoodFruit.y = -40;
-//            PlaySound(bonus);
+
         }
 
         if (CheckCollisionRecs(player, badFruit)) {
+            PlaySound(damage);
             score--;
             badFruit.x = static_cast<float>(GetRandomValue(0, screenWidth - 40));
             badFruit.y = 0;
@@ -143,6 +157,7 @@ void Catch(Window &window) {
         }
 
         if (goodFruit.y > screenHeight) {
+            PlaySound(lostBonus);
             score--;
             goodFruit.x = static_cast<float>(GetRandomValue(0, screenWidth - 40));
             goodFruit.y = 0;
@@ -158,6 +173,7 @@ void Catch(Window &window) {
 
         // Check for very good fruits falling to the floor
         if (veryGoodFruit.y > screenHeight) {
+            PlaySound(lostBonus);
             score--;
             veryGoodFruit.x = -40;
             veryGoodFruit.y = -40;
@@ -229,5 +245,10 @@ void Catch(Window &window) {
     UnloadTexture(goodTexture);
     UnloadTexture(badTexture);
 
+    StopSound(mainTheme);
+    UnloadSound(bonus);
+    UnloadSound(lostBonus);
+    UnloadSound(damage);
+    UnloadSound(mainTheme);
 }
 

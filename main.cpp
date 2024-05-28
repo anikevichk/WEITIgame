@@ -7,6 +7,8 @@ int main(){
     InitWindow(1600, 900, "EscapeFromWEITI");
     InitAudioDevice();
     Sound MenuSound = LoadSound("../src/sounds/menu.mp3");
+    Sound gameOver = LoadSound("../src/sounds/gameover.mp3");
+    Sound win = LoadSound("../src/sounds/winsound.mp3");
     SetWindowIcon(Icon);
     SetTargetFPS(60);
     Window currentWindow;
@@ -33,6 +35,7 @@ int main(){
         }
 
         if(currentWindow.getScreen()== Window::MAZE){
+            StopSound(MenuSound);
             Maze(currentWindow);
         }
 
@@ -42,10 +45,12 @@ int main(){
         }
 
         if(currentWindow.getScreen()== Window::LOSS){
+            //PlaySound(gameOver);
             lossWinScreen(currentWindow, "GAME OVER!:(");
         }
 
         if(currentWindow.getScreen()== Window::VICTORY){
+           // PlaySound(win);
             lossWinScreen(currentWindow, "VICTORY!");
         }
     }
