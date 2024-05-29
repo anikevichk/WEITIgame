@@ -20,6 +20,10 @@ add_executable(main main.cpp
         levels/CatchLevel/catch.cpp
         Tools/DrawTools.h
         Tools/DrawTools.cpp
+        levels/ExamGameLevel/Player.h
+        levels/ExamGameLevel/Player.cpp
+        levels/ExamGameLevel/levelManager.h
+        levels/ExamGameLevel/levelManager.cpp
 )
 
 find_package(raylib CONFIG REQUIRED)
