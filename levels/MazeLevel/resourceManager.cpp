@@ -22,3 +22,26 @@ void ResourceManager::UnloadResources(Texture2D& hotdog, Texture2D& wallH, Textu
     UnloadSound(mainTheme);
     UnloadSound(bonus);
 }
+
+void ResourceManager::HandlePlayerMovement(Rectangle& player, Vector2& direction, Rectangle*& currentFrames, bool& isKeyPressed, float speed,
+                          Rectangle runForwardFrames[], Rectangle runBackFrames[], Rectangle runLeftFrames[], Rectangle runRightFrames[]) {
+    if (IsKeyDown(KEY_W)) {
+        direction = {0, -speed};
+        currentFrames = runForwardFrames;
+        isKeyPressed = true;
+    } else if (IsKeyDown(KEY_S)) {
+        direction = {0, speed};
+        currentFrames = runBackFrames;
+        isKeyPressed = true;
+    } else if (IsKeyDown(KEY_A)) {
+        direction = {-speed, 0};
+        currentFrames = runLeftFrames;
+        isKeyPressed = true;
+    } else if (IsKeyDown(KEY_D)) {
+        direction = {speed, 0};
+        currentFrames = runRightFrames;
+        isKeyPressed = true;
+    } else {
+        isKeyPressed = false;
+    }
+}

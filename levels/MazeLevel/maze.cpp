@@ -6,7 +6,6 @@
 #include "renderer.h"
 #include "mazeGenerator.h"
 
-
 void Maze(Window &window) {
     int screenWidth = 1600;
     int screenHeight = 900;
@@ -72,25 +71,8 @@ void Maze(Window &window) {
         Vector2 direction = {0, 0};
 
         Rectangle previousPosition = player;
-        if (IsKeyDown(KEY_W)) {
-            direction = {0, -speed};
-            currentFrames = runForwardFrames;
-            isKeyPressed = true;
-        } else if (IsKeyDown(KEY_S)) {
-            direction = {0, speed};
-            currentFrames = runBackFrames;
-            isKeyPressed = true;
-        } else if (IsKeyDown(KEY_A)) {
-            direction = {-speed, 0};
-            currentFrames = runLeftFrames;
-            isKeyPressed = true;
-        } else if (IsKeyDown(KEY_D)) {
-            direction = {speed, 0};
-            currentFrames = runRightFrames;
-            isKeyPressed = true;
-        } else {
-            isKeyPressed = false;
-        }
+
+        ResourceManager::HandlePlayerMovement(player, direction, currentFrames, isKeyPressed, speed, runForwardFrames, runBackFrames, runLeftFrames, runRightFrames);
 
         // Update player position and check collisions
         Player::UpdateAndCheckCollisions(player, direction, maze, mazeWidth, mazeHeight, hotdogs, collectedHotdogs, gameWon, previousPosition, bonus);
@@ -112,4 +94,3 @@ void Maze(Window &window) {
 
     ResourceManager::UnloadResources(hotdog, wallH, wallV, background, mainTheme, bonus);
 }
-
