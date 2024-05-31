@@ -2,82 +2,70 @@
 #include "Scenes/scenes.h"
 #include "Tools/Window.h"
 
-int main() {
+int main(){
     Image Icon = LoadImage("../src/hotdog.png");
     InitWindow(1600, 900, "EscapeFromWEITI");
     InitAudioDevice();
-
     Sound MenuSound = LoadSound("../src/sounds/menu.mp3");
     Sound gameOver = LoadSound("../src/sounds/gameover.mp3");
-    Sound win = LoadSound("../src/sounds/win.mp3");
-    SetSoundVolume(win, 0.5);
-
+    Sound win = LoadSound("../src/sounds/winsound.mp3");
     SetWindowIcon(Icon);
     SetTargetFPS(60);
-
     Window currentWindow;
     currentWindow.setScreen(Window::Menu);
+    bool WinLossplayed = false;
+    while (!WindowShouldClose()){
 
-    int currentScreen = Window::Menu;
-    PlaySound(MenuSound);
-
-    while (!WindowShouldClose()) {
-        int newScreen = currentWindow.getScreen();
-
-        if (newScreen != currentScreen) {
-            StopSound(MenuSound);
-            StopSound(gameOver);
-            StopSound(win);
-
-            switch (newScreen) {
-                case Window::Menu:
-                    PlaySound(MenuSound);
-                    break;
-                case Window::LEVEL1:
-                case Window::EXAM:
-                case Window::MAZE:
-                case Window::CATCH:
-                    break;
-                case Window::LOSS:
-                    PlaySound(gameOver);
-                    break;
-                case Window::VICTORY:
-                    PlaySound(win);
-                    break;
+        if(currentWindow.getScreen() == Window::Menu){
+            if (!IsSoundPlaying(MenuSound))
+            {
+                PlaySound(MenuSound);
             }
-            currentScreen = newScreen;
-        }
-
-
-        if (currentWindow.getScreen() == Window::Menu) {
+            WinLossplayed = false;
             menu(currentWindow);
         }
-        else if (currentWindow.getScreen() == Window::LEVEL1) {
+        if(currentWindow.getScreen()== Window::LEVEL1){
+            StopSound(MenuSound);
             level1(currentWindow);
         }
-        else if (currentWindow.getScreen() == Window::EXAM) {
+
+        if(currentWindow.getScreen()== Window::EXAM){
+            StopSound(MenuSound);
             ExamGame(currentWindow);
+
         }
-        else if (currentWindow.getScreen() == Window::MAZE) {
+
+        if(currentWindow.getScreen()== Window::MAZE){
+            StopSound(MenuSound);
             Maze(currentWindow);
         }
-        else if (currentWindow.getScreen() == Window::CATCH) {
+
+        if(currentWindow.getScreen()== Window::CATCH){
+            StopSound(MenuSound);
             Catch(currentWindow);
         }
-        else if (currentWindow.getScreen() == Window::LOSS) {
+
+        if(currentWindow.getScreen()== Window::LOSS){
+            //PlaySound(gameOver);
+            if (!WinLossplayed)
+            {
+                WinLossplayed = true;
+                PlaySound(gameOver);
+            }
+            StopSound(MenuSound);
             lossWinScreen(currentWindow, "GAME OVER!:(");
         }
-        else if (currentWindow.getScreen() == Window::VICTORY) {
+
+        if(currentWindow.getScreen()== Window::VICTORY){
+           // PlaySound(win);
+            if (!WinLossplayed)
+            {
+                WinLossplayed = true;
+                PlaySound(win);
+            }
             lossWinScreen(currentWindow, "VICTORY!");
         }
     }
-
     UnloadImage(Icon);
-    UnloadSound(MenuSound);
-    UnloadSound(gameOver);
-    UnloadSound(win);
-    CloseAudioDevice();
-    CloseWindow();
 
-    return 0;
 }

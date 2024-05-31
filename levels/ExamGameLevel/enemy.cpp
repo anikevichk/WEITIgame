@@ -37,3 +37,8 @@ void Enemy::moveToPlayer(int playerX, int playerY){
     if(playerY != y) y+=sideY;
 
 }
+
+const Rectangle Enemy::getEnemyTextures() const {
+    return Textures[texture];
+}
+
