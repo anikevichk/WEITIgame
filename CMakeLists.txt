@@ -13,10 +13,20 @@ add_executable(main main.cpp
         Scenes/LossWinScreen.cpp
         Scenes/scenes.h
         levels/ExamGameLevel/ExamGame.cpp
-        levels/MazeLevel/maze.cpp
-        levels/MazeLevel/maze.h
         levels/ExamGameLevel/enemy.cpp
         levels/ExamGameLevel/enemy.h
+
+        levels/MazeLevel/maze.cpp
+        levels/MazeLevel/mazeGenerator.cpp
+        levels/MazeLevel/mazeGenerator.h
+        levels/MazeLevel/player.cpp
+        levels/MazeLevel/player.h
+        levels/MazeLevel/renderer.cpp
+        levels/MazeLevel/renderer.h
+        levels/MazeLevel/resourceManager.cpp
+        levels/MazeLevel/resourceManager.h
+        levels/MazeLevel/cell.h
+
         levels/CatchLevel/catch.cpp
         Tools/DrawTools.h
         Tools/DrawTools.cpp
