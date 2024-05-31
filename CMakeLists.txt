@@ -28,6 +28,13 @@ add_executable(main main.cpp
         levels/MazeLevel/cell.h
 
         levels/CatchLevel/catch.cpp
+        levels/CatchLevel/collision.cpp
+        levels/CatchLevel/collision.h
+        levels/CatchLevel/renderer.cpp
+        levels/CatchLevel/renderer.h
+        levels/CatchLevel/resourceManager.cpp
+        levels/CatchLevel/resourceManager.h
+
         Tools/DrawTools.h
         Tools/DrawTools.cpp
         levels/ExamGameLevel/Player.h
