@@ -76,6 +76,17 @@ void DrawDialogueWindow(const char* text, int& currentLength, int textLength, in
 
 }
 
+void HandleDialogueWindow(const char* text, int& currentLength, int textLength, int& framesCounter, Sound speaking, Texture2D& background, float letterDelay, bool& isDialogueWindowOpen, bool& isRightHalf) {
+    while (isDialogueWindowOpen && !WindowShouldClose()) {
+        BeginDrawing();
+        DrawDialogueWindow(text, currentLength, textLength, framesCounter, speaking, background, letterDelay, isDialogueWindowOpen, isRightHalf);
+        EndDrawing();
+        if (!isDialogueWindowOpen) {
+            StopSound(speaking);
+        }
+    }
+}
+
 void unloadTeachers() {
     UnloadTexture(teacher1);
     UnloadTexture(teacher2);

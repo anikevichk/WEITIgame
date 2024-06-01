@@ -14,6 +14,8 @@ void resourceManager::LoadGameResources(Texture2D& backgroundTex, Texture2D& pla
     lostBonusSnd = LoadSound("../src/sounds/lostBonus.mp3");
     damageSnd = LoadSound("../src/sounds/damage.mp3");
     mainThemeSnd = LoadSound("../src/sounds/CatchMainTheme.mp3");
+    SetSoundVolume(speaking1, 0.5);
+    SetSoundVolume(speaking2, 0.5);
     SetSoundVolume(damageSnd, 0.4);
     SetSoundVolume(lostBonusSnd, 0.8);
     SetSoundVolume(bonusSnd, 0.8);
