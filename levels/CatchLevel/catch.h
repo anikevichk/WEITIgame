@@ -52,7 +52,7 @@ const char* text1 = "Now you need to prepare for the session and colloquia.\n\n"
                     "Use buttons A and D to move around.\n\n"
                     "You can also move quickly from one side of the screen to the other.";
 
-const char* text2 = "The main thing to remember is to stay focused on your preparation or you\nwon't be able to pass the tests.\n\n"
+const char* text2 = "The main thing to remember is to stay focused on your preparation.\n\n"
                     "Sometimes you'll want to cut down the information through chat gpt.\n\n"
                     "You should not do that.";
 

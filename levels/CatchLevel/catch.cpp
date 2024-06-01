@@ -25,7 +25,6 @@ void Catch(Window &window) {
 
     HandleDialogueWindow(text2, currentLength2, textLength2, framesCounter2, speaking2,
                          background, letterDelay, DialogueWindow2, isRightHalf);
-    StopSound(speaking2);
     SetSoundVolume(mainTheme, 0.7);
 
     while (!WindowShouldClose()) {

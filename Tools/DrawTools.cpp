@@ -71,7 +71,7 @@ void DrawDialogueWindow(const char* text, int& currentLength, int textLength, in
     if (framesCounter >= letterDelay) {
         framesCounter = 0;
         if (currentLength < textLength)
-            currentLength++;
+            currentLength+=2;
     }
 
 }

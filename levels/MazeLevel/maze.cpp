@@ -68,13 +68,8 @@ void Maze(Window &window) {
 
     int collectedHotdogs = 0;
     bool gameWon = false;
-    const char* text1 = "Now you need to prepare for the session and colloquia.\n\n"
-                        "Use buttons A and D to move around.\n\n"
-                        "You can also move quickly from one side of the screen to the other.";
-
-    const char* text2 = "The main thing to remember is to stay focused on your preparation or you\nwon't be able to pass the tests.\n\n"
-                        "Sometimes you'll want to cut down the information through chat gpt.\n\n"
-                        "You should not do that.";
+    const char* text1 = "It's your first day at WEITI. Try to find the right classroom.";
+    const char* text2 = "You need to get all the hotdogs to get into the classroom.\n\nUse the keys A, S, D, W to move around.";
 
     int textLength1 = strlen(text1);
     int currentLength1 = 0;
@@ -102,7 +97,6 @@ void Maze(Window &window) {
 
     HandleDialogueWindow(text2, currentLength2, textLength2, framesCounter2, speaking1,
                          background, letterDelay, DialogueWindow2, isRightHalf);
-    StopSound(speaking2);
     SetSoundVolume(mainTheme, 0.7);
 
     while (!WindowShouldClose()) {
