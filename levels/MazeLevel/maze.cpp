@@ -5,6 +5,7 @@
 #include "resourceManager.h"
 #include "renderer.h"
 #include "mazeGenerator.h"
+#include "../../Tools/DrawTools.h"
 
 void Maze(Window &window) {
     int screenWidth = 1600;
@@ -16,6 +17,7 @@ void Maze(Window &window) {
     float frameRate = 0.1f;
     float frameTimer = 0.0f;
     bool isKeyPressed = false;
+    bool DialogueWindow = true;
 
     float scale = 0.8f;
 
@@ -62,6 +64,16 @@ void Maze(Window &window) {
 
     int collectedHotdogs = 0;
     bool gameWon = false;
+
+//    while(DialogueWindow && !WindowShouldClose()){
+//        BeginDrawing();
+//        DrawTexture(background, 0, 0, WHITE);
+//        const char* text = "Test kskksksksk kkskksk ksksk"
+//                           " \nTestm jdjdjdjdjjdjj jsjsjj"
+//                           "\nskkskkskskskskskkkkkks";
+//        DrawRoundedRectangle(600, 450, 900, 400, 20, text, DialogueWindow, WHITE, "Next");
+//        EndDrawing();
+//    }
 
     while (!WindowShouldClose()) {
         if (!IsSoundPlaying(mainTheme)) {

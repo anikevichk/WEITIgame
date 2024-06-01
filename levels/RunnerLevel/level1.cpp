@@ -79,15 +79,15 @@ void level1(Window &window) {
 
 
     PlaySound(RunnerSound);
-    while(DialogueWindow && !WindowShouldClose()){
-        BeginDrawing();
-        DrawTexture(backgroundTexture, 0, 0, WHITE);
-        const char* text = "Test kskksksksk kkskksk ksksk"
-                           " \nTestm jdjdjdjdjjdjj jsjsjj"
-                           "\nskkskkskskskskskkkkkks";
-        DrawRoundedRectangle(600,450, 900, 400, 20,text,DialogueWindow, WHITE);
-        EndDrawing();
-    }
+//    while(DialogueWindow && !WindowShouldClose()){
+//        BeginDrawing();
+//        DrawTexture(backgroundTexture, 0, 0, WHITE);
+//        const char* text = "Test kskksksksk kkskksk ksksk"
+//                           " \nTestm jdjdjdjdjjdjj jsjsjj"
+//                           "\nskkskkskskskskskkkkkks";
+//        DrawRoundedRectangle(600,450, 900, 400, 20,text,DialogueWindow, WHITE);
+//        EndDrawing();
+//    }
 
     while (!WindowShouldClose()) {
 

@@ -1,12 +1,15 @@
 #include "resourceManager.h"
+#include "../../Tools/DrawTools.h"
 
 void resourceManager::LoadGameResources(Texture2D& backgroundTex, Texture2D& playerTex, Texture2D& badTex, Texture2D& goodTex,
-                                        Sound& bonusSnd, Sound& lostBonusSnd, Sound& damageSnd, Sound& mainThemeSnd) {
+                                        Sound& bonusSnd, Sound& lostBonusSnd, Sound& damageSnd, Sound& mainThemeSnd, Sound& speaking1,Sound& speaking2 ) {
     backgroundTex = LoadTexture("../src/levelCatch/background.png");
     playerTex = LoadTexture("../src/sprite.png");
     badTex = LoadTexture("../src/levelCatch/bad.png");
     goodTex = LoadTexture("../src/levelCatch/good.png");
 
+    speaking1 = LoadSound("../src/sounds/voice2.mp3");
+    speaking2 = LoadSound("../src/sounds/voice1.mp3");
     bonusSnd = LoadSound("../src/sounds/bonus.mp3");
     lostBonusSnd = LoadSound("../src/sounds/lostBonus.mp3");
     damageSnd = LoadSound("../src/sounds/damage.mp3");
@@ -17,13 +20,16 @@ void resourceManager::LoadGameResources(Texture2D& backgroundTex, Texture2D& pla
 }
 
 void resourceManager::UnloadGameResources(Texture2D& backgroundTex, Texture2D& playerTex, Texture2D& badTex, Texture2D& goodTex,
-                                          Sound& bonusSnd, Sound& lostBonusSnd, Sound& damageSnd, Sound& mainThemeSnd) {
+                                          Sound& bonusSnd, Sound& lostBonusSnd, Sound& damageSnd, Sound& mainThemeSnd, Sound& speaking1,Sound& speaking2) {
     UnloadTexture(backgroundTex);
     UnloadTexture(playerTex);
     UnloadTexture(goodTex);
     UnloadTexture(badTex);
+    unloadTeachers();
 
     StopSound(mainThemeSnd);
+    UnloadSound(speaking1);
+    UnloadSound(speaking2);
     UnloadSound(bonusSnd);
     UnloadSound(lostBonusSnd);
     UnloadSound(damageSnd);
