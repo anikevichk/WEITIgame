@@ -17,6 +17,7 @@ add_executable(main main.cpp
         levels/ExamGameLevel/enemy.h
 
         levels/MazeLevel/maze.cpp
+        levels/MazeLevel/maze.h
         levels/MazeLevel/mazeGenerator.cpp
         levels/MazeLevel/mazeGenerator.h
         levels/MazeLevel/player.cpp
@@ -28,6 +29,7 @@ add_executable(main main.cpp
         levels/MazeLevel/cell.h
 
         levels/CatchLevel/catch.cpp
+        levels/CatchLevel/catch.h
         levels/CatchLevel/collision.cpp
         levels/CatchLevel/collision.h
         levels/CatchLevel/renderer.cpp
