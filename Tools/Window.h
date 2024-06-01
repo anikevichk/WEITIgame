@@ -1,7 +1,3 @@
-//
-// Created by matve on 20.05.2024.
-//
-
 #include"raylib.h"
 
 #ifndef UNTITLED_TOOLS_H
@@ -9,7 +5,7 @@
 
 class Window{
 public:
-    typedef enum GameScreen { Menu, LEVEL1, LOSS, VICTORY, EXAM, MAZE, CATCH } GameScreen;
+    typedef enum GameScreen { Menu, LEVEL1, LOSS, VICTORY, EXAM, MAZE, CATCH, MAIN } GameScreen;
 private:
     GameScreen currentScreen;
 public:

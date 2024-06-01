@@ -1,7 +1,3 @@
-//
-// Created by matve on 22.05.2024.
-//
-
 #include "../Tools/Window.h"
 
 #ifndef UNTITLED_SCREENS_H
@@ -14,5 +10,6 @@ void level1(Window& window);
 void ExamGame(Window &window);
 void Maze(Window &window);
 void Catch(Window &window);
+void mainScreen(Window &window);
 
 #endif //UNTITLED_SCREENS_H

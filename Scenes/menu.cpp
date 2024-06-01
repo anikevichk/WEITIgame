@@ -1,4 +1,4 @@
-#include "../cmake-build-debug/vcpkg_installed/x64-windows/include/raylib.h"
+#include "raylib.h"
 #include "scenes.h"
 #include  "../Tools/Window.h"
 

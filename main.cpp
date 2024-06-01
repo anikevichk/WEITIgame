@@ -12,9 +12,13 @@ int main(){
     SetWindowIcon(Icon);
     SetTargetFPS(60);
     Window currentWindow;
-    currentWindow.setScreen(Window::Menu);
+    currentWindow.setScreen(Window::MAIN);
     bool WinLossplayed = false;
     while (!WindowShouldClose()){
+
+        if(currentWindow.getScreen()== Window::MAIN){
+            mainScreen(currentWindow);
+        }
 
         if(currentWindow.getScreen() == Window::Menu){
             if (!IsSoundPlaying(MenuSound))

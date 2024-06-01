@@ -15,9 +15,8 @@ add_executable(main main.cpp
         levels/ExamGameLevel/ExamGame.cpp
         levels/ExamGameLevel/enemy.cpp
         levels/ExamGameLevel/enemy.h
-
+        Scenes/mainScreen.cpp
         levels/MazeLevel/maze.cpp
-        levels/MazeLevel/maze.h
         levels/MazeLevel/mazeGenerator.cpp
         levels/MazeLevel/mazeGenerator.h
         levels/MazeLevel/player.cpp
