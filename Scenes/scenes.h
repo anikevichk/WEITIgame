@@ -4,7 +4,7 @@
 #define UNTITLED_SCREENS_H
 
 
-void lossWinScreen(Window& window, char *text);
+void lossWinScreen(Window& window, bool win = true);
 void menu(Window& window);
 void level1(Window& window);
 void ExamGame(Window &window);

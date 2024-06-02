@@ -11,27 +11,38 @@ void mainScreen(Window& window) {
     const char *textExit = "Exit";
     Rectangle ButtonMenu = { static_cast<float>(ButtonX), static_cast<float>(buttonMenuY), 300.0f, 100.0f };
     Rectangle ButtonExit = { static_cast<float>(ButtonX), static_cast<float>(buttonExitY), 300.0f, 100.0f };
-    Color colorMenu = LIGHTGRAY;
-    Color colorExit = LIGHTGRAY;
+    Color orange = {236, 131, 48, 255};
+    Color darkOrange = {153, 77, 16, 255};
+    Color colorMenu, colorExit;
 
     Texture2D background = LoadTexture("../src/mainScreen.png");
+    Sound MenuSound = LoadSound("../src/sounds/main.mp3");
+    SetSoundVolume(MenuSound, 0.5);
+
 
     while (!WindowShouldClose() && window.getScreen() == Window::MAIN) {
+
+        if (!IsSoundPlaying(MenuSound))
+        {
+            PlaySound(MenuSound);
+        }
+
         if (CheckCollisionPointRec(GetMousePosition(), ButtonMenu)) {
-            colorMenu = IsMouseButtonDown(MOUSE_LEFT_BUTTON) ? RED : DARKGRAY;
+            colorMenu = IsMouseButtonDown(MOUSE_LEFT_BUTTON) ? darkOrange : darkOrange;
             if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
                 window.setScreen(Window::Menu);
             }
         } else {
-            colorMenu = LIGHTGRAY;
+            colorMenu = orange;
         }
+
         if (CheckCollisionPointRec(GetMousePosition(), ButtonExit)) {
-            colorExit = IsMouseButtonDown(MOUSE_LEFT_BUTTON) ? RED : DARKGRAY;
+            colorExit = IsMouseButtonDown(MOUSE_LEFT_BUTTON) ? darkOrange : darkOrange;
             if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
                 CloseWindow();
             }
         } else {
-            colorExit = LIGHTGRAY;
+            colorExit = orange;
         }
 
         BeginDrawing();
@@ -45,4 +56,5 @@ void mainScreen(Window& window) {
     }
 
     UnloadTexture(background);
+    UnloadSound(MenuSound);
 }

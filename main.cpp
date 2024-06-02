@@ -50,26 +50,26 @@ int main(){
         }
 
         if(currentWindow.getScreen()== Window::LOSS){
-            //PlaySound(gameOver);
             if (!WinLossplayed)
             {
                 WinLossplayed = true;
                 PlaySound(gameOver);
             }
-            StopSound(MenuSound);
-            lossWinScreen(currentWindow, "GAME OVER!:(");
+            lossWinScreen(currentWindow, false);
         }
 
         if(currentWindow.getScreen()== Window::VICTORY){
-           // PlaySound(win);
             if (!WinLossplayed)
             {
                 WinLossplayed = true;
                 PlaySound(win);
             }
-            lossWinScreen(currentWindow, "VICTORY!");
+            lossWinScreen(currentWindow);
         }
     }
     UnloadImage(Icon);
+    UnloadSound(MenuSound);
+    UnloadSound(win);
+    UnloadSound(gameOver);
 
 }
