@@ -1,5 +1,6 @@
 #include "raylib.h"
 #include "Structs.h"
+#include <cstring>
 #ifndef UNTITLED_LEVELMANAGER_H
 #define UNTITLED_LEVELMANAGER_H
 
@@ -32,6 +33,27 @@ class LevelManager {
     };
 
 public:
+    Sound speaking1 = LoadSound("../src/sounds/voice1.mp3");
+    Sound speaking2 = LoadSound("../src/sounds/voice2.mp3");
+
+    const char* text1 = "You need to get to the faculty, but public transport has changed its route again. \n \n You came out in WEITI's backyard. Get to the faculty.";
+    const char* text2 = "Use the space bar to jump over computers. \n\n The servers are too high so use W and S to change the path.";
+
+    int textLength1 = strlen(text1);
+    int currentLength1 = 0;
+    int framesCounter1 = 0;
+
+    int textLength2 = strlen(text2);
+    int currentLength2 = 0;
+    int framesCounter2 = 0;
+
+    float letterDelay = 1;
+
+
+    bool DialogueWindow1 = true;
+    bool DialogueWindow2 = false;
+    bool isRightHalf = true;
+
 
     bool isLoss() const;
 

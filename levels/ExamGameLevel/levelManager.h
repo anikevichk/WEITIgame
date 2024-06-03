@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "../../Scenes/scenes.h"
 #include <vector>
+#include <cstring>
 #ifndef UNTITLED_LEVELMANAGER_H
 #define UNTITLED_LEVELMANAGER_H
 
@@ -48,11 +49,14 @@ struct Hotdog:Rectangle{
 
 class levelManager {
     bool isKeyPressed = false;
+
     int counter = 0;
     int screenWidth = 1600;
     int screenHeight = 900;
+
     float enemySpawnRate = 10.0f;
     float enemySpawnerTimer = 10.0f;
+
     Window& window;
     Vector2 direction = { 0, -1 };
     Player player = { 800, 450, 50, 95, 100 };
@@ -62,6 +66,26 @@ class levelManager {
     Texture2D BulletsTexture = LoadTexture("../src/levelExam/Bullets.png");
     Texture2D EnemiesTexture = LoadTexture("../src/levelExam/enemies.png");
 public:
+    Sound speaking1 = LoadSound("../src/sounds/voice1.mp3");
+    Sound speaking2 = LoadSound("../src/sounds/voice2.mp3");
+
+    const char* text1 = "It's exam time! You have to write 'couple' tests \n\n Don't worry, there aren't many of them.\n\n The only food that helps you survive is hotdogs.";
+    const char* text2 = "Use W,A,S,D to move. And a space to throw a pencil.\n\n This is your only option to survive!";
+
+    int textLength1 = strlen(text1);
+    int currentLength1 = 0;
+    int framesCounter1 = 0;
+
+    int textLength2 = strlen(text2);
+    int currentLength2 = 0;
+    int framesCounter2 = 0;
+
+    float letterDelay = 1;
+
+
+    bool DialogueWindow1 = true;
+    bool DialogueWindow2 = false;
+    bool isRightHalf = false;
     levelManager(Window& window);
     std::vector<Bullet> bullets;
     std::vector<Enemy> enemies;

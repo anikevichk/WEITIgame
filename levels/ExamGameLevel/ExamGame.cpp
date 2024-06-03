@@ -7,23 +7,31 @@
 
 
 
+
 bool DialogueWindow = true;
 void ExamGame(Window &window) {
     levelManager manager(window);
     Texture2D BackgroundTexture = LoadTexture("../src/levelExam/Background.png");
     Sound ExamSound = LoadSound("../src/sounds/Exam.mp3");
 
+
     SetTargetFPS(60);
     PlaySound(ExamSound);
-//    while(DialogueWindow && !WindowShouldClose()){
-//        BeginDrawing();
-//        DrawTexture(BackgroundTexture, 0, 0, WHITE);
-//        const char* text = "Test kskksksksk kkskksk ksksk"
-//                           " \nTestm jdjdjdjdjjdjj jsjsjj"
-//                           "\nskkskkskskskskskkkkkks";
-//        DrawRoundedRectangle(600,450, 900, 400, 20,text,DialogueWindow, WHITE);
-//        EndDrawing();
-//    }
+
+
+    SetSoundVolume(ExamSound, 0.3);
+
+    HandleDialogueWindow(manager.text1, manager.currentLength1, manager.textLength1, manager.framesCounter1, manager.speaking2,
+                         BackgroundTexture, manager.letterDelay, manager.DialogueWindow1, manager.isRightHalf);
+    if (!manager.DialogueWindow1) {
+        manager.DialogueWindow2 = true;
+        manager.isRightHalf = true;
+    }
+
+    HandleDialogueWindow(manager.text2, manager.currentLength2, manager.textLength2, manager.framesCounter2, manager.speaking1,
+                         BackgroundTexture, manager.letterDelay, manager.DialogueWindow2, manager.isRightHalf);
+    SetSoundVolume(ExamSound, 0.7);
+
 
     while (!WindowShouldClose()) {
 

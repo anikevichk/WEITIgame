@@ -5,6 +5,7 @@
 #include "LevelManager.h"
 
 
+
 void level1(Window &window) {
 
 
@@ -24,15 +25,20 @@ void level1(Window &window) {
     manager.InitLevel();
 
     PlaySound(RunnerSound);
-//    while(DialogueWindow && !WindowShouldClose()){
-//        BeginDrawing();
-//        DrawTexture(backgroundTexture, 0, 0, WHITE);
-//        const char* text = "Test kskksksksk kkskksk ksksk"
-//                           " \nTestm jdjdjdjdjjdjj jsjsjj"
-//                           "\nskkskkskskskskskkkkkks";
-//        DrawRoundedRectangle(600,450, 900, 400, 20,text,DialogueWindow, WHITE);
-//        EndDrawing();
-//    }
+
+
+    SetSoundVolume(RunnerSound, 0.3);
+
+    HandleDialogueWindow(manager.text1, manager.currentLength1, manager.textLength1, manager.framesCounter1, manager.speaking1,
+                         backgroundTexture, manager.letterDelay, manager.DialogueWindow1, manager.isRightHalf);
+    if (!manager.DialogueWindow1) {
+        manager.DialogueWindow2 = true;
+        manager.isRightHalf = false;
+    }
+
+    HandleDialogueWindow(manager.text2, manager.currentLength2, manager.textLength2, manager.framesCounter2, manager.speaking2,
+                         backgroundTexture, manager.letterDelay, manager.DialogueWindow2, manager.isRightHalf);
+    SetSoundVolume(RunnerSound, 0.7);
 
     while (!WindowShouldClose()) {
 
