@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD 17)
 
 
 add_executable(main main.cpp
-        levels/RunnerLevel/level1.cpp
+        levels/RunnerLevel/levelRunner.cpp
         Scenes/menu.cpp
         Tools/Window.h
         Tools/Window.cpp
@@ -42,6 +42,9 @@ add_executable(main main.cpp
         levels/ExamGameLevel/Player.cpp
         levels/ExamGameLevel/levelManager.h
         levels/ExamGameLevel/levelManager.cpp
+        levels/RunnerLevel/LevelManager.h
+        levels/RunnerLevel/LevelManager.cpp
+        levels/RunnerLevel/Structs.h
 )
 
 find_package(raylib CONFIG REQUIRED)
