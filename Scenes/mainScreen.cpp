@@ -16,7 +16,7 @@ void mainScreen(Window& window) {
     Color colorMenu, colorExit;
 
     Texture2D background = LoadTexture("../src/mainScreen.png");
-    Sound MenuSound = LoadSound("../src/sounds/main.mp3");
+    Sound MenuSound = LoadSound("../src/sounds/main2.mp3");
     SetSoundVolume(MenuSound, 0.5);
 
 
