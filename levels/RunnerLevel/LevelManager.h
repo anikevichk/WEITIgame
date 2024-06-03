@@ -33,6 +33,7 @@ class LevelManager {
     };
 
 public:
+
     Sound speaking1 = LoadSound("../src/sounds/voice1.mp3");
     Sound speaking2 = LoadSound("../src/sounds/voice2.mp3");
 

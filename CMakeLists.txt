@@ -3,9 +3,15 @@ project(untitled)
 
 set(CMAKE_CXX_STANDARD 17)
 
+include(FetchContent)
+FetchContent_Declare(
+        googletest
+        GIT_REPOSITORY      https://github.com/google/googletest.git
+        GIT_TAG main
+)
+FetchContent_MakeAvailable(googletest)
 
-
-add_executable(main main.cpp
+set(PROJECT_SOURCES
         levels/RunnerLevel/levelRunner.cpp
         Scenes/menu.cpp
         Tools/Window.h
@@ -46,9 +52,17 @@ add_executable(main main.cpp
         levels/RunnerLevel/LevelManager.cpp
         levels/RunnerLevel/Structs.h
 )
+set(TEST_SOURCES
+        levels/RunnerLevel/LevelManager.h
+        levels/RunnerLevel/LevelManager.cpp
+)
+add_executable(main main.cpp ${PROJECT_SOURCES})
+add_executable(tests Tests/tests.cpp ${TEST_SOURCES})
 
 find_package(raylib CONFIG REQUIRED)
 target_link_libraries(main PRIVATE raylib)
+target_link_libraries(tests PRIVATE raylib)
+target_link_libraries(tests PUBLIC gtest_main)
 
 #include(FetchContent)
 #FetchContent_Declare(
