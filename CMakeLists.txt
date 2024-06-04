@@ -53,30 +53,16 @@ set(PROJECT_SOURCES
         levels/RunnerLevel/Structs.h
 )
 set(TEST_SOURCES
-        levels/RunnerLevel/LevelManager.h
-        levels/RunnerLevel/LevelManager.cpp
+        Tests/tests.cpp
+#        levels/RunnerLevel/LevelManager.cpp
+        levels/CatchLevel/collision.cpp
+        levels/CatchLevel/collision.h
+        Tools/Window.cpp
 )
 add_executable(main main.cpp ${PROJECT_SOURCES})
-add_executable(tests Tests/tests.cpp ${TEST_SOURCES})
+add_executable(tests ${TEST_SOURCES})
 
 find_package(raylib CONFIG REQUIRED)
 target_link_libraries(main PRIVATE raylib)
 target_link_libraries(tests PRIVATE raylib)
 target_link_libraries(tests PUBLIC gtest_main)
-
-#include(FetchContent)
-#FetchContent_Declare(
-#        googletest
-#        GIT_REPOSITORY      https://github.com/google/googletest.git
-#        GIT_TAG main
-#)
-#FetchContent_MakeAvailable(googletest)
-#
-#set(SOURCES
-#        levels/MazeLevel/maze.h
-#        levels/MazeLevel/maze.cpp
-#        tests/test_maze.cpp
-#)
-#
-#add_executable(maze ${SOURCES})
-#target_link_libraries(maze PUBLIC gtest_main)
