@@ -53,10 +53,17 @@ set(PROJECT_SOURCES
         levels/RunnerLevel/Structs.h
 )
 set(TEST_SOURCES
-        Tests/tests.cpp
-#        levels/RunnerLevel/LevelManager.cpp
+        Tests/testCatch/testCollision.cpp
+        Tests/testMaze/testGenerator.cpp
+        Tests/testMaze/testPlayer.cpp
+
+        levels/MazeLevel/renderer.cpp
+        levels/MazeLevel/player.cpp
+        levels/MazeLevel/mazeGenerator.cpp
+        levels/RunnerLevel/LevelManager.cpp
+        levels/CatchLevel/resourceManager.cpp
         levels/CatchLevel/collision.cpp
-        levels/CatchLevel/collision.h
+        levels/CatchLevel/renderer.cpp
         Tools/Window.cpp
 )
 add_executable(main main.cpp ${PROJECT_SOURCES})
