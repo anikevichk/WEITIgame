@@ -2,32 +2,36 @@
 #include "scenes.h"
 #include "../Tools/Window.h"
 
+// Display the main screen with menu and exit buttons
 void mainScreen(Window& window) {
-    int ButtonX = 650;
+    // Button properties
+    int buttonX = 650;
     int buttonMenuY = 450;
     int buttonExitY = 600;
-
     const char *textMenu = "Menu";
     const char *textExit = "Exit";
-    Rectangle ButtonMenu = { static_cast<float>(ButtonX), static_cast<float>(buttonMenuY), 300.0f, 100.0f };
-    Rectangle ButtonExit = { static_cast<float>(ButtonX), static_cast<float>(buttonExitY), 300.0f, 100.0f };
+    Rectangle buttonMenu = { static_cast<float>(buttonX), static_cast<float>(buttonMenuY), 300.0f, 100.0f };
+    Rectangle buttonExit = { static_cast<float>(buttonX), static_cast<float>(buttonExitY), 300.0f, 100.0f };
+
+    // Button colors
     Color orange = {236, 131, 48, 255};
     Color darkOrange = {153, 77, 16, 255};
     Color colorMenu, colorExit;
 
+    // Load background texture and menu sound
     Texture2D background = LoadTexture("../src/mainScreen.png");
-    Sound MenuSound = LoadSound("../src/sounds/main2.mp3");
-    SetSoundVolume(MenuSound, 0.5);
+    Sound menuSound = LoadSound("../src/sounds/main2.mp3");
+    SetSoundVolume(menuSound, 0.5);
 
-
+    // Main loop for the main screen
     while (!WindowShouldClose() && window.getScreen() == Window::MAIN) {
-
-        if (!IsSoundPlaying(MenuSound))
-        {
-            PlaySound(MenuSound);
+        // Play menu sound if not playing
+        if (!IsSoundPlaying(menuSound)) {
+            PlaySound(menuSound);
         }
 
-        if (CheckCollisionPointRec(GetMousePosition(), ButtonMenu)) {
+        // Check mouse interaction with menu and exit buttons
+        if (CheckCollisionPointRec(GetMousePosition(), buttonMenu)) {
             colorMenu = IsMouseButtonDown(MOUSE_LEFT_BUTTON) ? darkOrange : darkOrange;
             if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
                 window.setScreen(Window::Menu);
@@ -36,7 +40,7 @@ void mainScreen(Window& window) {
             colorMenu = orange;
         }
 
-        if (CheckCollisionPointRec(GetMousePosition(), ButtonExit)) {
+        if (CheckCollisionPointRec(GetMousePosition(), buttonExit)) {
             colorExit = IsMouseButtonDown(MOUSE_LEFT_BUTTON) ? darkOrange : darkOrange;
             if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
                 CloseWindow();
@@ -45,16 +49,18 @@ void mainScreen(Window& window) {
             colorExit = orange;
         }
 
+        // Draw the main screen
         BeginDrawing();
         ClearBackground(RAYWHITE);
         DrawTexture(background, 0, 0, WHITE);
-        DrawRectangleRec(ButtonMenu, colorMenu);
-        DrawRectangleRec(ButtonExit, colorExit);
-        DrawText(textMenu, ButtonX + 75, buttonMenuY + 20, 60, WHITE);
-        DrawText(textExit, ButtonX + 90, buttonExitY + 20, 60, WHITE);
+        DrawRectangleRec(buttonMenu, colorMenu);
+        DrawRectangleRec(buttonExit, colorExit);
+        DrawText(textMenu, buttonX + 75, buttonMenuY + 20, 60, WHITE);
+        DrawText(textExit, buttonX + 90, buttonExitY + 20, 60, WHITE);
         EndDrawing();
     }
 
+    // Unload resources
     UnloadTexture(background);
-    UnloadSound(MenuSound);
+    UnloadSound(menuSound);
 }
