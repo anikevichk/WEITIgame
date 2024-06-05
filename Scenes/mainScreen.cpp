@@ -20,8 +20,8 @@ void mainScreen(Window& window) {
 
     // Load background texture and menu sound
     Texture2D background = LoadTexture("../src/mainScreen.png");
-    Sound menuSound = LoadSound("../src/sounds/main2.mp3");
-    SetSoundVolume(menuSound, 0.5);
+    Sound menuSound = LoadSound("../src/sounds/main.mp3");
+    SetSoundVolume(menuSound, 0.3);
 
     // Main loop for the main screen
     while (!WindowShouldClose() && window.getScreen() == Window::MAIN) {
