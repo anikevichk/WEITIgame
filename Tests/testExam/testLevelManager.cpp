@@ -99,7 +99,7 @@ TEST_F(LevelManagerTest, EnemyRemovalAfterDeath) {
 
 
 TEST_F(LevelManagerTest, BulletRotationMatchesDirection) {
-    // Перевірка, чи кут повороту кулі відповідає напрямку руху
+
     Manager->CheckButtons();
     auto bullets = Manager->bullets;
     for (const auto& bullet : bullets) {
@@ -108,6 +108,5 @@ TEST_F(LevelManagerTest, BulletRotationMatchesDirection) {
         } else if (bullet.speed.y > 0) {
             EXPECT_EQ(bullet.rotate, 270.0f);
         }
-        // Подібні перевірки для інших напрямків
     }
 }
