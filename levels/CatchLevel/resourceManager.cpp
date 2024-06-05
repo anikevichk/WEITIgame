@@ -34,7 +34,7 @@ void resourceManager::UnloadGameResources(Texture2D& backgroundTex, Texture2D& p
     UnloadTexture(playerTex);
     UnloadTexture(goodTex);
     UnloadTexture(badTex);
-    unloadTeachers();
+//    unloadTeachers();
 
     // Stop and unload sounds
     StopSound(mainThemeSnd);

@@ -53,7 +53,6 @@ class levelManager {
     int counter = 0;
     int screenWidth = 1600;
     int screenHeight = 900;
-
     float enemySpawnRate = 10.0f;
     float enemySpawnerTimer = 10.0f;
 
@@ -86,7 +85,7 @@ public:
     bool DialogueWindow1 = true;
     bool DialogueWindow2 = false;
     bool isRightHalf = false;
-    levelManager(Window& window);
+    explicit levelManager(Window& window);
     std::vector<Bullet> bullets;
     std::vector<Enemy> enemies;
     bool End = false;
@@ -101,6 +100,7 @@ public:
     const Texture2D &getBulletsTexture() const;
     int getCounter() const;
     int getScreenWidth() const;
+    int getScreenHeight() const;
     const Hotdog &getHotdog() const;
     const HealthBar &getHealthBar() const;
     const Player &getPlayer() const;
