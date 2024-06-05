@@ -101,3 +101,6 @@ Labirynt jest generowany przy użyciu algorytmu tworzenia labiryntów, który us
 
 ![EXAM](src/documentation/exam.png)
 
+### 4. Uruchomienie projektu
+
+Biblioteka [raylib](https://www.raylib.com/) musi być zainstalowana, aby projekt działał
