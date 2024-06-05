@@ -18,11 +18,12 @@ public:
                                              int& randomGoodIndex, Sound& lostBonus, int screenHeight,
                                              float& veryGoodFruitTimer, int& screenWidth, float& veryGoodFruitInterval);
 
-    static void CheckVeryBadFruitCollisions(Rectangle& player, Rectangle& veryBadFruit, Window& window, int& screenHeight, int& screenWidth, int& fruitsCaught);
+    static void CheckVeryBadFruitCollisions(Rectangle& player, Rectangle& veryBadFruit, Window& window,
+                                            int& screenHeight, int& screenWidth, int& fruitsCaught);
 
-    static void CheckCollisions(Rectangle& player, Rectangle& goodFruit, Rectangle& badFruit, Rectangle& veryGoodFruit, Rectangle& veryBadFruit,
-                                int& score, int& fruitsCaught, Sound& bonus, Sound& lostBonus, Sound& damage,
-                                int& screenWidth, int& screenHeight, Window& window, int& randomGoodIndex,
+    static void CheckCollisions(Rectangle& player, Rectangle& goodFruit, Rectangle& badFruit, Rectangle& veryGoodFruit,
+                                Rectangle& veryBadFruit, int& score, int& fruitsCaught, Sound& bonus, Sound& lostBonus,
+                                Sound& damage,int& screenWidth, int& screenHeight, Window& window, int& randomGoodIndex,
                                 int& randomBadIndex, float& veryGoodFruitTimer);
 };
 

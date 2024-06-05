@@ -34,7 +34,6 @@ set(PROJECT_SOURCES
         levels/MazeLevel/cell.h
 
         levels/CatchLevel/catch.cpp
-        levels/CatchLevel/catch.h
         levels/CatchLevel/collision.cpp
         levels/CatchLevel/collision.h
         levels/CatchLevel/renderer.cpp
