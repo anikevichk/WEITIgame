@@ -37,8 +37,8 @@ public:
     Sound speaking1 = LoadSound("../src/sounds/voice1.mp3");
     Sound speaking2 = LoadSound("../src/sounds/voice2.mp3");
 
-    const char* text1 = "You need to get to the faculty, but public transport has changed its route again. \n \n You came out in WEITI's backyard. Get to the faculty.";
-    const char* text2 = "Use the space bar to jump over computers. \n\n The servers are too high, so use W and S to change the path.";
+    const char* text1 = "You need to get to the faculty, but public transport has changed its route again.\n\nYou came out in WEITI's backyard. Get to the faculty.";
+    const char* text2 = "Use the space bar to jump over computers.\n\n The servers are too high, so use W and S to change the path.";
 
     int textLength1 = strlen(text1);
     int currentLength1 = 0;
