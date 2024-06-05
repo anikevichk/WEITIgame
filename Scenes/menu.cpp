@@ -8,23 +8,28 @@ int buttonRunnerX = 230;
 int buttonMazeX = buttonRunnerX + 300;
 int buttonCatchX = buttonMazeX + 300;
 int buttonExamX = buttonCatchX + 300;
-
+int buttonExitX = 1400;
+int buttonExitY = 800;
 // Button texts
 const char *buttonRunnertxt = "Heading\n\nto Weiti";
 const char *buttonMazetxt = "First day";
 const char *buttonCatchtxt = "Preparation";
 const char *buttonExamtxt = "Exam";
+const char *buttonExittxt = "Back";
+
 
 // Button rectangles
-Rectangle buttonRunner = { buttonRunnerX, buttonY, 250, 150 };
-Rectangle buttonMaze = { buttonMazeX, buttonY, 250, 150 };
-Rectangle buttonCatch = { buttonCatchX, buttonY, 250, 150 };
-Rectangle buttonExam = { buttonExamX, buttonY, 250, 150 };
+Rectangle buttonRunner = { static_cast<float>(buttonRunnerX), static_cast<float>(buttonY), 250, 150 };
+Rectangle buttonMaze = { static_cast<float>(buttonMazeX), static_cast<float>(buttonY), 250, 150 };
+Rectangle buttonCatch = { static_cast<float>(buttonCatchX), static_cast<float>(buttonY), 250, 150 };
+Rectangle buttonExam = { static_cast<float>(buttonExamX), static_cast<float>(buttonY), 250, 150 };
+Rectangle buttonExit = { static_cast<float>(buttonExitX), static_cast<float>(buttonExitY), 100, 50 };
+
 
 // Button colors
 Color blue = { 74, 140, 182, 255 };
 Color darkBlue = { 24, 81, 118, 255 };
-Color buttonRunnerColor, buttonExamColor, buttonMazeColor, buttonCatchColor;
+Color buttonRunnerColor, buttonExamColor, buttonMazeColor, buttonCatchColor, buttonExitColor;
 
 // Load menu sound
 Sound MenuSound = LoadSound("../src/sounds/menu.mp3");
@@ -75,6 +80,17 @@ void menu(Window& window) {
         buttonCatchColor = blue;
     }
 
+    if (CheckCollisionPointRec(GetMousePosition(), buttonExit)) {
+        buttonExitColor = MOUSE_LEFT_BUTTON ? RED : darkBlue;
+        if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+            window.setScreen(Window::MAIN); // Switch to main screen on button click
+            StopSound(MenuSound);
+            UnloadSound(MenuSound);
+        }
+    } else {
+        buttonExitColor = blue;
+    }
+
     // Play menu sound
     PlaySound(MenuSound);
 
@@ -94,6 +110,10 @@ void menu(Window& window) {
 
     DrawRectangleRec(buttonExam, buttonExamColor);
     DrawText(buttonExamtxt, buttonExamX + 90, buttonY + 60, 30, WHITE);
+
+    DrawRectangleRec(buttonExit,buttonExitColor);
+    DrawText(buttonExittxt, buttonExitX + 15, buttonExitY + 10, 30, WHITE);
+
     EndDrawing();
 
     // Unload resources

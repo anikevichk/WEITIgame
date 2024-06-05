@@ -14,6 +14,7 @@ int main() {
     Sound win = LoadSound("../src/sounds/winsound.mp3");
     SetWindowIcon(Icon);
     SetTargetFPS(60);
+    StopSound(MenuSound);
 
     // Initialize current window and flag for Win/Loss sound playing
     Window currentWindow;
@@ -25,6 +26,7 @@ int main() {
         // Check current window state and update accordingly
         if(currentWindow.getScreen() == Window::MAIN) {
             mainScreen(currentWindow);
+            StopSound(MenuSound);
         } else if(currentWindow.getScreen() == Window::Menu) {
             // Play menu sound if not already playing
             if (!IsSoundPlaying(MenuSound)) {
