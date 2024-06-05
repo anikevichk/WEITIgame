@@ -214,3 +214,7 @@ const HealthBar &levelManager::getHealthBar() const {
 const Player &levelManager::getPlayer() const {
     return player;
 }
+
+int levelManager::getScreenHeight() const {
+    return screenHeight;
+}

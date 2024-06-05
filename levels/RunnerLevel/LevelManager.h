@@ -81,11 +81,15 @@ public:
 
     const Texture2D &getServerTexture() const;
 
-    const Player &getPlayer() const;
+     Player &getPlayer() ;
 
-    const Obstacle &getObstacles(int inedx) const;
+     Obstacle &getObstacles(int inedx) ;
 
     int getScreenWidth() const;
+
+    const Obstacle *getObstacles1() const;
+
+    void setCounter(int counter);
 
 };
 

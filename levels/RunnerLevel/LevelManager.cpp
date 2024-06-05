@@ -184,14 +184,22 @@ const Texture2D &LevelManager::getServerTexture() const {
     return serverTexture;
 }
 
-const Player &LevelManager::getPlayer() const {
+ Player &LevelManager::getPlayer()  {
     return player;
 }
 
-const Obstacle &LevelManager::getObstacles(int index) const {
+ Obstacle &LevelManager::getObstacles(int index)  {
     return obstacles[index];
 }
 
 int LevelManager::getScreenWidth() const {
     return screenWidth;
+}
+
+void LevelManager::setCounter(int counter) {
+    LevelManager::counter = counter;
+}
+
+const Obstacle *LevelManager::getObstacles1() const {
+    return obstacles;
 }
