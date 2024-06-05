@@ -55,15 +55,19 @@ set(TEST_SOURCES
         Tests/testCatch/testCollision.cpp
         Tests/testMaze/testGenerator.cpp
         Tests/testMaze/testPlayer.cpp
+        Tests/testRunner/testLevelManger.cpp
 
         levels/MazeLevel/renderer.cpp
         levels/MazeLevel/player.cpp
         levels/MazeLevel/mazeGenerator.cpp
         levels/RunnerLevel/LevelManager.cpp
+        levels/RunnerLevel/LevelManager.h
+        levels/RunnerLevel/Structs.h
         levels/CatchLevel/resourceManager.cpp
         levels/CatchLevel/collision.cpp
         levels/CatchLevel/renderer.cpp
         Tools/Window.cpp
+
 )
 add_executable(main main.cpp ${PROJECT_SOURCES})
 add_executable(tests ${TEST_SOURCES})
