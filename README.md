@@ -1,115 +1,97 @@
 # WEITI Game
 
 ---
-**Project z PROI 24L**  
+**Project from PROI 24L**  
 **Made by:** Matvii Ivashchenko, Katsyaryna Anikevich  
-**Opiekun:** Pan Szymański Zbigniew
+**Supervisor:** Pan Szymański Zbigniew
 
 ---
-### 1. Idea projektu
-Stworzyliśmy 4 poziomy gry oparte na temacie „studiowanie w WEITI”.  
-Każdy poziom symbolizuje określoną część studiowania na uniwersytecie
-### 2. Struktura projektu
-- **main.cpp**  
-  Główny plik Main zarządza scenami. W funkcji main znajduje się pętla monitorująca `currentScreen`, w przypadku jego zmiany funkcja uruchamia żądaną scenę.
+## 1. Project Idea
+We created a game with four levels based on the theme of "studying at WEITI."  
+Each level represents a specific aspect of university life.
 
+## 2. Project Structure
+
+- **main.cpp**  
+  The main file manages the scenes. The `main` function contains a loop that monitors `currentScreen` and launches the appropriate scene when its value changes.
 
 - **Tools**  
-  - Implementacja rysowania okna dialogowego w celu wyjaśnienia idei poziomu i kontrolowania gracza na poziomie, implementacja uruchomionego tekstu z dźwiękiem, rysowanie nauczycieli
-  - Wykorzystywana jest klasa `Window`, która posiada parametr currentScreen typu zmiennego, który może przyjmować wartości (`Menu, LEVEL1, LOSS, VICTORY, EXAM, MAZE, CATH, MAIN`), z których każda odpowiada za scenę/ poziom, który ma zostać uruchomiony.  Posiada metody `setScreen`, `getScreen`.
-
+  - Implements drawing of a dialog window to explain the level's idea and guide the player, animated text with sound, and drawing of teachers.
+  - Uses the `Window` class, which has a `currentScreen` parameter that can take values (`Menu, LEVEL1, LOSS, VICTORY, EXAM, MAZE, CATH, MAIN`), each corresponding to a different scene or level. It has methods `setScreen` and `getScreen`.
 
 - **Scenes**  
-    Realizacja ekranów `WIN/LOSS`, głównego ekranu oraz ekranu menu
+  Implements `WIN/LOSS` screens, the main screen, and the menu screen.
 
-
--  **src**  
-   Tutaj znajdują się wszystkie testury i dźwięki.
-
+- **src**  
+  Contains all textures and sounds.
 
 - **Tests**  
-  Tutaj znajdują się testy jednostkowe dla plików z folderu levels.
+  Contains unit tests for files from the levels folder.
 
+- **levels**  
+  Contains the implementation of the game's levels.
 
-- **levels**
-### 3. Levels
-**BEFORE LEVELS** 
+## 3. Levels
 
-**Opis:**
+### BEFORE LEVELS
 
-Pojawienie się nauczycieli miało na celu wyjaśnienie idei i zarządzanie poziomem
+**Description:**  
+Teachers appear to explain the idea and manage the level.
 
-**Realizacja:**
-
-Stworzyliśmy funkcję do rysowania okna dialogowego (`DrawRoundedRectangle`), `drawTeachers`, która przyjmuje argument `isInRightHalf`, dzięki czemu możliwe jest zaimplementowanie zaciemnienia milczącego uczestnika narracji. Dzięki `DrawDialogWindow` tekst pojawia się stopniowo wraz z dźwiękiem. `HandleDialogWindow` to funkcja, która wywołuje wszystkie powyższe funkcje
+**Implementation:**  
+We created a function to draw the dialog window (`DrawRoundedRectangle`) and `drawTeachers`, which takes the argument `isInRightHalf` to implement shading of the silent narrator. With `DrawDialogWindow`, text appears gradually along with sound. `HandleDialogWindow` calls all the above functions.
 
 ![BEFORE LEVELS](src/documentation/before.png)
 
-**1. HEADING TO WEITI**  
+### 1. HEADING TO WEITI
 
-   **Opis:**  
+**Description:**  
+The first level symbolizes the way to university. The player continuously runs, can jump, and switch height levels to avoid obstacles. There are two types of obstacles: computers and servers. Computers can be jumped over, but to pass a server, the player must change height. Colliding with an obstacle results in failure.
 
-   Pierwszy poziom symbolizuje drogę na uniwersytet.  Na nim gracz stale biega, może skakać i przemieszczać się pomiędzy poziomami wysokości.  To wszystko, czego potrzebujesz, aby pokonać przeszkody.  Istnieją dwa rodzaje przeszkód: komputery  i serwery.  Komputery można po prostu przeskakiwać, ale nie serwery, aby jego przejść  należy zmienić poziom wysokości. Kolizja z przeszkodą powoduje porażkę.   
-
-   **Realizacja:**  
-
-   Gracz i przeszkody zaimplementowano przy użyciu tekstury oraz klasy `Rectangle` z biblioteki Raylib, która służy do śledzenia kolizji.  Przeszkody pojawiają się w prawej niewidocznej  części ekranu, w różnych współrzędnych losowo generowanych przez algorytm.  Algorytm sprawdza, czy odległość między nową przeszkodą a poprzednią wynosi co najmniej 200 pikseli, aby poziom mógł zostać pokonany.  Jeżeli ten warunek nie zostanie spełniony, algorytm przesunie nową przeszkodę o 200 pikseli w prawo.Gdy przeszkoda dotrze do lewego końca ekranu, algorytm zgeneruje jej współrzędne ponowmie.
+**Implementation:**  
+The player and obstacles are implemented using textures and the `Rectangle` class from the Raylib library for collision detection. Obstacles appear from the right, outside the visible screen, at randomly generated coordinates. An algorithm ensures a minimum of 200 pixels between obstacles. If the condition is not met, the new obstacle is shifted 200 pixels to the right. When an obstacle reaches the left edge of the screen, new coordinates are generated.
 
 ![HEADING TO WEITI](src/documentation/runner.png)
 
-**2. FIRST DAY**
+### 2. FIRST DAY
 
-**Opis:**
+**Description:**  
+The third level represents the first day at university, where the player must find the right classroom. The player moves through a randomly generated maze, collecting five hot dogs placed in different locations. The hot dogs' positions are generated randomly, ensuring they do not overlap. The player starts in the bottom-left corner and must reach the top-right corner.
 
-Trzeci poziom symbolizuje pierwszy dzień na uniwersytecie, podczas którego trzeba znaleźć odpowiednią salę. Gracz porusza się po losowo wygenerowanym labiryncie i musi zebrać 5 hot dogów rozmieszczonych w różnych miejscach. Pozycje hot dogów są generowane losowo, z zachowaniem zasady, aby nie pojawiały się w tym samym miejscu. Gracz zaczyna w lewym dolnym rogu i jego celem jest dotarcie do prawego górnego rogu labiryntu.
+**Implementation:**  
+The maze is generated using an algorithm that removes walls from a full structure to create paths. The player's and hot dogs' positions are stored as `Rectangle` coordinates. Movement and collision detection are handled using the `Rectangle` class from Raylib. The game is won after collecting all hot dogs and reaching the exit.
 
-**Realizacja:**
+![FIRST DAY](src/documentation/maze.png)
 
+### 3. PREPARATION
 
-Labirynt jest generowany przy użyciu algorytmu tworzenia labiryntów, który usuwa ściany z początkowo pełnej struktury, aby stworzyć przejścia. Pozycja gracza i hot dogów jest zapisana jako współrzędne prostokątów, a ruch gracza oraz sprawdzanie kolizji z hot dogami jest obsługiwane za pomocą klasy Rectangle z biblioteki Raylib. Gra kończy się sukcesem po zebraniu wszystkich hot dogów i dotarciu do wyjścia.
+**Description:**  
+The fourth level symbolizes exam preparation. The player must catch books and brains to earn points while avoiding social media and ChatGPT icons. Books add 1 point, brains add 3 points, and dropping any of these items deducts 1 point. Catching social media deducts 1 point, and catching ChatGPT results in instant failure. The player wins after reaching 20 points.
 
-![FIRST DAY](src/documentation/maze.png)     
-
-**3. PREPARATION**
-
-**Opis:**
-
-
-Czwarty poziom symbolizuje przygotowanie do egzaminów. Na tym poziomie gracz musi łapać książki i mózgi, aby zdobyć punkty, jednocześnie unikając łapania mediów społecznościowych oraz czatu GPT. Książki dodają 1 punkt, mózgi 3 punkty, a każde z tych przedmiotów upuszczone na podłogę odejmuje 1 punkt. Złapanie mediów społecznościowych również odejmuje 1 punkt, a złapanie czatu GPT kończy grę. Gra kończy się wygraną po zdobyciu 20 punktów.
-
-
-**Realizacja:**
-
-
-Obiekty są generowane losowo na ekranie i opadają w dół. Gracz porusza się w lewo i prawo, łapiąc przedmioty. Książki i media społecznościowe pojawiają się ponownie po upadku na podłogę, podczas gdy mózgi pojawiają się co 15 sekund, a czat GPT co każde 5 zebranych przedmiotów. Pozycje gracza i obiektów są zapisywane jako współrzędne prostokątów, a kolizje są śledzone przy użyciu funkcji CheckCollisionRecs z biblioteki Raylib. Wynik gracza jest wyświetlany na ekranie.
+**Implementation:**  
+Objects spawn randomly and fall downward. The player moves left and right to catch them. Books and social media icons reappear after falling, while brains appear every 15 seconds and ChatGPT appears every 5 collected items. The positions of the player and objects are stored as `Rectangle` coordinates, and collisions are detected using the `CheckCollisionRecs` function from Raylib. The player's score is displayed on the screen.
 
 ![PREPARATION](src/documentation/catch.png)
 
-**4. EXAM**  
+### 4. EXAM
 
+**Description:**  
+This level represents an exam session where the player must move around the screen, throwing pencils at enemies (exams) and avoiding their attacks. If enemies reach the player, they deal damage.
 
-**Opis:**  
+**Character Attributes:**  
+**Player:**  
+- Health: 100  
+- Damage: 25  
 
+**Exam:**  
+- Health: 25  
+- Damage: 25  
 
-Ten poziom reprezentuje sesję egzaminacyjną, musisz poruszać się po ekranie i rzucać ołówkami we wrogów (egzaminami) i nie pozwolić, aby cię dopadli.  Jeśli się do ciebie zbliżą, zaatakują.
-Charakterystyka:  
-Gracz:  
-- Zdrowie - 100  
-- Szkoda - 25   
-- 
-Egzamin:   
-- Zdrowie - 25  
-- Szkoda - 25
-
-
-**Realizacja:**
-
-
-Wrogowie są implementowani poprzez klasę Enemy, która dziedziczy po klasie Rectangle.  Klasa Enemy posiada następujące argumenty: Health, Damage oraz Texture( numer użytej tekstury (która jest generowana losowo)). Metody - oprócz getterów, funkcja ReceiveDamage od kuli, moveToPlayer - zmienia położenie. wroga o jeden piksel w X i/lub Y, do gracza.
-Gracz i kuli są implementowane poprzez klasę Rectangle i mają swoje cechy w zmiennych. Textury są dołączone przez współrzędne Rectangle.
+**Implementation:**  
+Enemies are implemented using the `Enemy` class, which inherits from `Rectangle`. The `Enemy` class includes attributes: `Health`, `Damage`, and `Texture` (a randomly generated texture). Methods include `ReceiveDamage` (handles damage from bullets) and `moveToPlayer` (moves the enemy by one pixel in X and/or Y towards the player). The player and bullets are implemented using `Rectangle`, with textures applied based on their coordinates.
 
 ![EXAM](src/documentation/exam.png)
 
-### 4. Uruchomienie projektu
+## 4. Running the Project
 
-Biblioteka [raylib](https://www.raylib.com/) musi być zainstalowana, aby projekt działał
+The [raylib](https://www.raylib.com/) library must be installed for the project to work.
